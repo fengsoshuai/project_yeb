@@ -54,9 +54,7 @@
 
 ### 5.1 Swagger2的测试界面
 
-![](img\pic1.png)
-
-
+<img src='https://github.com/fengsoshuai/project_yeb/blob/master/img/pic1.png'/>
 
 
 
