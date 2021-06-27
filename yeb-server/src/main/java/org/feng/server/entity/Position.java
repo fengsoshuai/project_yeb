@@ -9,26 +9,28 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.feng.server.config.annotation.BeanHasCreateDate;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author FengJinSong
  * @since 2021-06-16
  */
+@BeanHasCreateDate
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("t_position")
-@ApiModel(value="Position对象", description="")
+@ApiModel(value="Position对象")
 public class Position implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 8351287084052024193L;
 
     @ApiModelProperty(value = "id")
     @TableId(value = "id", type = IdType.AUTO)

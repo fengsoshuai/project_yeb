@@ -2,13 +2,13 @@ package org.feng.server.controller;
 
 
 import io.swagger.annotations.ApiOperation;
+import org.feng.consts.Consts;
 import org.feng.server.entity.Joblevel;
 import org.feng.server.entity.ResponseBean;
 import org.feng.server.service.IJoblevelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -36,11 +36,10 @@ public class JoblevelController {
     @PostMapping("/")
     @ApiOperation("添加职称信息")
     public ResponseBean addJoblevel(@RequestBody Joblevel joblevel){
-        joblevel.setCreateDate(LocalDateTime.now());
         if(joblevelService.save(joblevel)){
-            return ResponseBean.success("添加成功");
+            return ResponseBean.success(Consts.ADD_SUCCESS);
         }
-        return ResponseBean.error("添加失败");
+        return ResponseBean.error(Consts.ADD_FAILED);
     }
 
     @PutMapping("/")

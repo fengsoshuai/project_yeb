@@ -2,6 +2,7 @@ package org.feng.server.controller;
 
 
 import io.swagger.annotations.ApiOperation;
+import org.feng.consts.Consts;
 import org.feng.server.entity.Position;
 import org.feng.server.entity.ResponseBean;
 import org.feng.server.service.IPositionService;
@@ -37,29 +38,28 @@ public class PositionController {
     @PostMapping("/")
     @ApiOperation(value = "添加职位信息")
     public ResponseBean addPosition(@RequestBody Position position){
-        position.setCreateDate(LocalDateTime.now());
         if(positionService.save(position)){
-            return ResponseBean.success("添加成功");
+            return ResponseBean.success(Consts.ADD_SUCCESS);
         }
-        return ResponseBean.error("添加失败");
+        return ResponseBean.error(Consts.ADD_FAILED);
     }
 
     @PutMapping("/")
     @ApiOperation(value = "更新职位信息")
     public ResponseBean updatePosition(@RequestBody Position position){
         if(positionService.updateById(position)){
-            return ResponseBean.success("更新成功");
+            return ResponseBean.success(Consts.UPDATE_SUCCESS);
         }
-        return ResponseBean.error("更新失败");
+        return ResponseBean.error(Consts.UPDATE_FAILED);
     }
 
     @ApiOperation(value = "删除职位信息")
     @DeleteMapping("/{id}")
     public ResponseBean deletePosition(@PathVariable Integer id){
         if(positionService.removeById(id)){
-            return ResponseBean.success("删除成功");
+            return ResponseBean.success(Consts.DELETE_SUCCESS);
         }
-        return ResponseBean.error("删除失败");
+        return ResponseBean.error(Consts.DELETE_FAILED);
     }
 
 
@@ -67,11 +67,8 @@ public class PositionController {
     @DeleteMapping("/")
     public ResponseBean deletePositionsByIds(Integer[] ids){
         if(positionService.removeByIds(Arrays.asList(ids))){
-            return ResponseBean.success("删除成功");
+            return ResponseBean.success(Consts.DELETE_SUCCESS);
         }
-        return ResponseBean.error("删除失败");
+        return ResponseBean.error(Consts.DELETE_FAILED);
     }
-
-
-
 }

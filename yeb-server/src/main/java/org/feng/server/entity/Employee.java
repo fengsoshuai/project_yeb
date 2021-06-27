@@ -4,14 +4,17 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.feng.server.config.annotation.BeanHasCreateDate;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -21,11 +24,12 @@ import java.time.LocalDate;
  * @author FengJinSong
  * @since 2021-06-16
  */
+@BeanHasCreateDate
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("t_employee")
-@ApiModel(value="Employee对象", description="")
+@ApiModel(value="Employee对象")
 public class Employee implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -119,5 +123,8 @@ public class Employee implements Serializable {
     @ApiModelProperty(value = "工资账套ID")
     private Integer salaryId;
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Shanghai")
+    @ApiModelProperty(value = "创建时间")
+    private LocalDateTime createDate;
 
 }

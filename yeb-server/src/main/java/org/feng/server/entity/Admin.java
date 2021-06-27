@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
@@ -11,11 +12,13 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.experimental.Accessors;
+import org.feng.server.config.annotation.BeanHasCreateDate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,11 +31,12 @@ import java.util.stream.Collectors;
  * @author FengJinSong
  * @since 2021-06-16
  */
+@BeanHasCreateDate
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("t_admin")
-@ApiModel(value="Admin对象", description="")
+@ApiModel(value="Admin对象")
 public class Admin implements Serializable, UserDetails {
 
     private static final long serialVersionUID = 1L;
@@ -69,10 +73,13 @@ public class Admin implements Serializable, UserDetails {
     @ApiModelProperty(value = "备注")
     private String remark;
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Shanghai")
+    @ApiModelProperty(value = "创建时间")
+    private LocalDateTime createDate;
+
     @ApiModelProperty(value = "角色")
     @TableField(exist = false)
     private List<Role> roles;
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

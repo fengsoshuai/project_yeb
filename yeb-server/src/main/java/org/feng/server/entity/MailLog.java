@@ -1,11 +1,13 @@
 package org.feng.server.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.feng.server.config.annotation.BeanHasCreateDate;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -18,14 +20,15 @@ import java.time.LocalDateTime;
  * @author FengJinSong
  * @since 2021-06-16
  */
+@BeanHasCreateDate
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("t_mail_log")
-@ApiModel(value="MailLog对象", description="")
+@ApiModel(value="MailLog对象")
 public class MailLog implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -7304864001613921730L;
 
     @ApiModelProperty(value = "消息id")
     private String msgId;
@@ -48,11 +51,10 @@ public class MailLog implements Serializable {
     @ApiModelProperty(value = "重试时间")
     private LocalDateTime tryTime;
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Shanghai")
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
 
     @ApiModelProperty(value = "更新时间")
     private LocalDateTime updateTime;
-
-
 }
