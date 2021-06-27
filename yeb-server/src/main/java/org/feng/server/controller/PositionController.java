@@ -21,7 +21,7 @@ import java.util.List;
  * @since 2021-06-16
  */
 @RestController
-@RequestMapping("/system/cfg/pos")
+@RequestMapping("/system/basic/pos")
 public class PositionController {
 
     @Autowired

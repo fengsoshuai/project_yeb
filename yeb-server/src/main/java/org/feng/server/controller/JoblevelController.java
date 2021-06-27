@@ -1,19 +1,72 @@
 package org.feng.server.controller;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import io.swagger.annotations.ApiOperation;
+import org.feng.server.entity.Joblevel;
+import org.feng.server.entity.ResponseBean;
+import org.feng.server.service.IJoblevelService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * <p>
- *  前端控制器
+ *  职称管理控制器
  * </p>
  *
  * @author FengJinSong
  * @since 2021-06-16
  */
 @RestController
-@RequestMapping("/joblevel")
+@RequestMapping("/system/basic/joblevel")
 public class JoblevelController {
 
+    @Autowired
+    private IJoblevelService joblevelService;
+
+    @GetMapping("/")
+    @ApiOperation("获取所有职称信息")
+    public List<Joblevel> getAllJoblevels(){
+        return joblevelService.list();
+    }
+
+    @PostMapping("/")
+    @ApiOperation("添加职称信息")
+    public ResponseBean addJoblevel(@RequestBody Joblevel joblevel){
+        joblevel.setCreateDate(LocalDateTime.now());
+        if(joblevelService.save(joblevel)){
+            return ResponseBean.success("添加成功");
+        }
+        return ResponseBean.error("添加失败");
+    }
+
+    @PutMapping("/")
+    @ApiOperation("更新职称信息")
+    public ResponseBean updateJoblevel(@RequestBody Joblevel joblevel){
+        if(joblevelService.updateById(joblevel)){
+            return ResponseBean.success("更新成功");
+        }
+        return ResponseBean.error("更新失败");
+    }
+
+    @DeleteMapping("/{id}")
+    @ApiOperation("删除职称信息")
+    public ResponseBean deleteJoblevel(@PathVariable Integer id){
+        if(joblevelService.removeById(id)){
+            return ResponseBean.success("删除成功");
+        }
+        return ResponseBean.error("删除失败");
+    }
+
+    @ApiOperation("批量删除职称信息")
+    @DeleteMapping
+    public ResponseBean deleteJoblevelsByIds(Integer[] ids){
+        if(joblevelService.removeByIds(Arrays.asList(ids))){
+            return ResponseBean.success("删除成功");
+        }
+        return ResponseBean.error("删除失败");
+    }
 }

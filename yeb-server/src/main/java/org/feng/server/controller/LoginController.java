@@ -20,7 +20,6 @@ import java.security.Principal;
  *
  * @author FengJinSong
  */
-@Api(tags = "LoginController")
 @RestController
 public class LoginController {
 
