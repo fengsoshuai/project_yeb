@@ -12,6 +12,7 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Wrapper;
 import java.util.List;
 
 /**
@@ -48,5 +49,10 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
     @Override
     public List<Menu> getMenusWithRole() {
         return menuMapper.getMenusWithRole();
+    }
+
+    @Override
+    public List<Menu> getAllMenus() {
+        return menuMapper.getAllMenus();
     }
 }

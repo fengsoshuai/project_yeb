@@ -39,6 +39,18 @@
         </collection>
     </resultMap>
 
+    <resultMap id="MenusWithChildren" type="org.feng.server.entity.Menu" extends="BaseResultMap">
+        <id column="id1" property="id"/>
+        <result column="name1" property="name"/>
+        <collection property="children" ofType="org.feng.server.entity.Menu">
+            <id column="id2" property="id"/>
+            <result column="name2" property="name"/>
+            <collection property="children" ofType="org.feng.server.entity.Menu">
+                <id column="id3" property="id"/>
+                <result column="name3" property="name"/>
+            </collection>
+        </collection>
+    </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
@@ -91,5 +103,23 @@
             AND r.id = mr.rid
         ORDER BY
             m.id
+    </select>
+
+    <select id="getAllMenus" resultMap="MenusWithChildren">
+        SELECT
+            m1.id AS id1,
+            m1.NAME AS name1,
+            m2.id AS id2,
+            m2.NAME AS name2,
+            m3.id AS id3,
+            m3.NAME AS name3
+        FROM
+            t_menu m1,
+            t_menu m2,
+            t_menu m3
+        WHERE
+            m1.id = m2.parentId
+            AND m2.id = m3.parentId
+            AND m3.enabled = TRUE
     </select>
 </mapper>

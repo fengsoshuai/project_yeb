@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * <p>
- *  服务类
+ *  菜单业务类
  * </p>
  *
  * @author FengJinSong
@@ -25,4 +25,10 @@ public interface IMenuService extends IService<Menu> {
      * @return 菜单列表
      */
     List<Menu> getMenusWithRole();
+
+    /**
+     * 获取所有菜单
+     * @return 菜单列表
+     */
+    List<Menu> getAllMenus();
 }

@@ -1,14 +1,20 @@
 package org.feng.server.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.annotations.ApiOperation;
 import org.feng.consts.Consts;
+import org.feng.server.entity.Menu;
+import org.feng.server.entity.MenuRole;
 import org.feng.server.entity.ResponseBean;
 import org.feng.server.entity.Role;
+import org.feng.server.service.IMenuRoleService;
+import org.feng.server.service.IMenuService;
 import org.feng.server.service.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -21,6 +27,10 @@ import java.util.List;
 public class PermissionController {
     @Autowired
     private IRoleService roleService;
+    @Autowired
+    private IMenuService menuService;
+    @Autowired
+    private IMenuRoleService menuRoleService;
 
     @ApiOperation("获取所有角色")
     @GetMapping("/")
@@ -47,5 +57,18 @@ public class PermissionController {
             return ResponseBean.success(Consts.DELETE_SUCCESS);
         }
         return ResponseBean.error(Consts.DELETE_FAILED);
+    }
+
+    @GetMapping("/menus")
+    @ApiOperation("获取菜单")
+    public ResponseBean getAllMenus(){
+        return ResponseBean.response(200, Consts.SUCCESS, menuService.getAllMenus());
+    }
+
+
+    @GetMapping("/menu/{rid}")
+    @ApiOperation("根据角色id获取菜单id")
+    public ResponseBean getMenusIdByRole(@PathVariable Integer rid){
+        return ResponseBean.response(200, Consts.SUCCESS, menuRoleService.list(new QueryWrapper<MenuRole>().eq("rid", rid)).stream().map(MenuRole::getMid).collect(Collectors.toList()));
     }
 }
