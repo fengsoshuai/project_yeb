@@ -66,6 +66,7 @@ logging:
     org.feng.server.mapper: debug
 
 
+
 jwt:
   # JWT存储的请求头
   tokenHeader: Authorization

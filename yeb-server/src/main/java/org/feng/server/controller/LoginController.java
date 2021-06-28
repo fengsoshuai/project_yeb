@@ -1,6 +1,5 @@
 package org.feng.server.controller;
 
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.feng.server.entity.Admin;
 import org.feng.server.entity.AdminLoginParam;

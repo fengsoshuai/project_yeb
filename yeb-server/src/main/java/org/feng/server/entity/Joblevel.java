@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.feng.server.config.annotation.BeanHasCreateDate;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -22,6 +23,7 @@ import java.time.LocalDateTime;
  * @since 2021-06-16
  */
 @Data
+@BeanHasCreateDate
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("t_joblevel")
