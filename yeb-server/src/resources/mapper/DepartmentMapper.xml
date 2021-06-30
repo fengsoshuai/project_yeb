@@ -17,4 +17,19 @@
         id, name, parentId, depPath, enabled, isParent
     </sql>
 
+    <resultMap id="DepartmentWithChildren"
+               type="org.feng.server.entity.Department" extends="BaseResultMap">
+        <collection property="children" ofType="org.feng.server.entity.Department"
+                    select="org.feng.server.mapper.DepartmentMapper.getAllDepartmentsByParentId"
+                    column="id">
+        </collection>
+    </resultMap>
+
+    <!--获取所有部门-->
+    <select id="getAllDepartmentsByParentId" resultMap="DepartmentWithChildren">
+        select
+        <include refid="Base_Column_List"/>
+        from t_department
+        where parentId = #{parentId}
+    </select>
 </mapper>

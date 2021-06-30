@@ -3,6 +3,7 @@ package org.feng.server.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.feng.consts.Consts;
 
 /**
  * 响应对象
@@ -47,5 +48,23 @@ public class ResponseBean {
      */
     public static ResponseBean response(long code, String message, Object object){
         return new ResponseBean(code, message, object);
+    }
+
+    /**
+     * 操作成功，并返回数据
+     * @param data 数据
+     * @return 响应对象
+     */
+    public static ResponseBean ok(Object data){
+        return new ResponseBean(200, Consts.SUCCESS, data);
+    }
+
+    /**
+     * 操作失败，并返回数据
+     * @param data 数据
+     * @return 响应对象
+     */
+    public static ResponseBean fail(Object data){
+        return new ResponseBean(500, Consts.ERROR, data);
     }
 }
