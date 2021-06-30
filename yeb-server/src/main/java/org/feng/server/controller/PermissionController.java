@@ -39,7 +39,7 @@ public class PermissionController {
     }
 
     @ApiOperation("添加角色")
-    @PostMapping("/")
+    @PostMapping("/role")
     public ResponseBean addRole(@RequestBody Role role){
         if(!role.getName().startsWith(Consts.PERMISSION_PREFIX)){
             role.setName(Consts.PERMISSION_PREFIX + role.getName());
@@ -70,5 +70,11 @@ public class PermissionController {
     @ApiOperation("根据角色id获取菜单id")
     public ResponseBean getMenusIdByRole(@PathVariable Integer rid){
         return ResponseBean.response(200, Consts.SUCCESS, menuRoleService.list(new QueryWrapper<MenuRole>().eq("rid", rid)).stream().map(MenuRole::getMid).collect(Collectors.toList()));
+    }
+
+    @ApiOperation("更新角色菜单")
+    @PutMapping("/")
+    public ResponseBean updateMenuRole(Integer rid, Integer[] mids){
+        return menuRoleService.updateMenuRole(rid, mids);
     }
 }

@@ -105,6 +105,7 @@
             m.id
     </select>
 
+    <!--查询所有菜单-->
     <select id="getAllMenus" resultMap="MenusWithChildren">
         SELECT
             m1.id AS id1,

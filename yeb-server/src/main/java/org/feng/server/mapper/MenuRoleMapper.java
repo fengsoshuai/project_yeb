@@ -13,4 +13,11 @@ import org.feng.server.entity.MenuRole;
  */
 public interface MenuRoleMapper extends BaseMapper<MenuRole> {
 
+    /**
+     * 更新角色菜单
+     * @param rid 角色id
+     * @param mids 菜单id列表
+     * @return 操作结果
+     */
+    Integer insertRecord(Integer rid, Integer[] mids);
 }
