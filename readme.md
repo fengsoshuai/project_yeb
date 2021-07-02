@@ -35,8 +35,52 @@
 + 实现了全局异常处理类，内容有待完善。
 + 实现了Controller同一返回结构类型 `ResponseBean`。
 + 完整的登陆模块实现，验证码使用了`Hutool`中的四则运算验证。
++ 部门管理，在添加和删除时使用了存储过程。
 + ...未完待续
 
+### 3.1部门管理中的存储过程
+*添加部门*
+```sql
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addDep`(in depName varchar(32),in
+parentId int,in enabled boolean,out result int,out result2 int)
+begin
+declare did int;
+declare pDepPath varchar(64);
+insert into t_department set name=depName,parentId=parentId,enabled=enabled;
+select row_count() into result;
+select last_insert_id() into did;
+set result2=did;
+select depPath into pDepPath from t_department where id=parentId;
+update t_department set depPath=concat(pDepPath,'.',did) where id=did;
+update t_department set isParent=true where id=parentId;
+end
+```
+
+*删除部门*
+```sql
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteDep`(in did int,out result
+int)
+begin
+declare ecount int;
+declare pid int;
+declare pcount int;
+declare a int;
+select count(*) into a from t_department where id=did and isParent=false;
+if a=0 then set result=-2;
+else
+select count(*) into ecount from t_employee where departmentId=did;
+if ecount>0 then set result=-1;
+else
+select parentId into pid from t_department where id=did;
+delete from t_department where id=did and isParent=false;
+select row_count() into result;
+select count(*) into pcount from t_department where parentId=pid;
+if pcount=0 then update t_department set isParent=false where id=pid;
+end if;
+end if;
+end if;
+end
+```
 
 
 ## 4. yeb-util 模块
