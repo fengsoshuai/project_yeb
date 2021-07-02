@@ -3,11 +3,14 @@ package org.feng.server.service.impl;
 import cn.hutool.captcha.generator.MathGenerator;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.feng.consts.Consts;
 import org.feng.server.config.security.component.JwtTokenUtil;
 import org.feng.server.entity.Admin;
+import org.feng.server.entity.AdminRole;
 import org.feng.server.entity.ResponseBean;
 import org.feng.server.entity.Role;
 import org.feng.server.mapper.AdminMapper;
+import org.feng.server.mapper.AdminRoleMapper;
 import org.feng.server.mapper.RoleMapper;
 import org.feng.server.service.IAdminService;
 import org.feng.util.StringUtil;
@@ -19,6 +22,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -41,6 +45,9 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     private AdminMapper adminMapper;
     @Autowired
     private RoleMapper roleMapper;
+    @Autowired
+    private AdminRoleMapper adminRoleMapper;
+
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -96,5 +103,22 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     @Override
     public List<Role> getRoles(Integer adminId) {
         return roleMapper.getRoles(adminId);
+    }
+
+    @Override
+    public List<Admin> getAllAdmins(String keywords) {
+        return adminMapper.getAllAdmins(IAdminService.getCurrentAdmin().getId(), keywords);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public ResponseBean updateAdminRole(Integer adminId, Integer[] rids) {
+        // 删除所有权限
+        adminRoleMapper.delete(new QueryWrapper<AdminRole>().eq("adminId", adminId));
+        Integer rows = adminRoleMapper.addAdminRole(adminId, rids);
+        if(rows == rids.length){
+            return ResponseBean.success(Consts.UPDATE_SUCCESS);
+        }
+        return ResponseBean.error(Consts.UPDATE_FAILED);
     }
 }

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.feng.server.entity.Admin;
 import org.feng.server.entity.Menu;
 import org.feng.server.mapper.MenuMapper;
+import org.feng.server.service.IAdminService;
 import org.feng.server.service.IMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -33,7 +34,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 
     @Override
     public List<Menu> getMenusByAdminId() {
-        Integer id = ((Admin) (SecurityContextHolder.getContext().getAuthentication().getPrincipal())).getId();
+        Integer id = IAdminService.getCurrentAdmin().getId();
         ValueOperations<String, List<Menu>> valueOperations = redisTemplate.opsForValue();
         // 查询缓存
         List<Menu> menus = valueOperations.get("menu_" + id);
