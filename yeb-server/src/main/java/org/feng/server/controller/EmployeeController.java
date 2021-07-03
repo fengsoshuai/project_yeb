@@ -6,11 +6,14 @@ import org.feng.consts.Consts;
 import org.feng.server.entity.Employee;
 import org.feng.server.entity.ResponseBean;
 import org.feng.server.entity.ResponsePageBean;
+import org.feng.server.excel.ExcelUtil;
 import org.feng.server.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * <p>
@@ -98,11 +101,19 @@ public class EmployeeController {
         return ResponseBean.error(Consts.UPDATE_FAILED);
     }
 
+    @ApiOperation("删除员工信息")
     @DeleteMapping("/{id}")
     public ResponseBean deleteEmployee(@PathVariable Integer id){
         if(employeeService.removeById(id)){
             return ResponseBean.success(Consts.DELETE_SUCCESS);
         }
         return ResponseBean.error(Consts.DELETE_FAILED);
+    }
+
+    @ApiOperation("导出员工数据")
+    @PostMapping(value = "/export", produces = "application/octet-stream")
+    public void exportEmployee(HttpServletResponse response, Integer[] ids){
+        List<Employee> employeeList = employeeService.getEmployeeForExcel(ids);
+        ExcelUtil.export(response, "员工表", Employee.class, employeeList);
     }
 }

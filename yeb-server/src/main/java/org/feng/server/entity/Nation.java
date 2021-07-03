@@ -1,5 +1,6 @@
 package org.feng.server.entity;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -13,7 +14,7 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *  民族实体
  * </p>
  *
  * @author FengJinSong
@@ -23,7 +24,7 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("t_nation")
-@ApiModel(value="Nation对象", description="")
+@ApiModel(value="Nation对象")
 public class Nation implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -32,6 +33,7 @@ public class Nation implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
+    @Excel(name = "民族")
     @ApiModelProperty(value = "民族")
     private String name;
 

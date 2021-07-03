@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.feng.server.entity.Employee;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * <p>
@@ -28,6 +29,10 @@ public interface EmployeeMapper extends BaseMapper<Employee> {
     IPage<Employee> getEmployeeByPage(Page<Employee> employeePage, @Param("employee") Employee employee, @Param("beginDateScope") LocalDate[] beginDateScope);
 
 
-
-
+    /**
+     * 查询员工信息，结果用于excel导出
+     * @param ids 指定员工id，ids为null表示查询所有
+     * @return 员工列表
+     */
+    List<Employee> getEmployeeForExcel(@Param("ids") Integer[] ids);
 }

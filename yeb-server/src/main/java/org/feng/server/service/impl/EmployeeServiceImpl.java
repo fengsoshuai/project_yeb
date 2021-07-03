@@ -62,4 +62,9 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         }
         return ResponseBean.error(Consts.ADD_FAILED);
     }
+
+    @Override
+    public List<Employee> getEmployeeForExcel(Integer[] ids) {
+        return employeeMapper.getEmployeeForExcel(ids);
+    }
 }

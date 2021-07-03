@@ -6,6 +6,7 @@ import org.feng.server.entity.ResponseBean;
 import org.feng.server.entity.ResponsePageBean;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * <p>
@@ -39,4 +40,12 @@ public interface IEmployeeService extends IService<Employee> {
      * @return 响应结果
      */
     ResponseBean addEmployee(Employee employee);
+
+
+    /**
+     * 查询员工信息，结果用于excel导出
+     * @param ids 指定员工id，ids为null表示查询所有
+     * @return 员工列表
+     */
+    List<Employee> getEmployeeForExcel(Integer[] ids);
 }

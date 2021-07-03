@@ -117,4 +117,39 @@
         ORDER BY e.id
     </select>
 
+
+    <select id="getEmployeeForExcel" resultMap="EmployeeInfo">
+        SELECT
+        e.*,
+        n.id As nid,
+        n.`name` AS nname,
+        p.id AS pid,
+        p.`name` AS pname,
+        d.id AS did,
+        d.`name` AS dname,
+        j.id AS jid,
+        j.`name` AS jname,
+        pos.id AS posid,
+        pos.`name` AS posname
+        FROM
+        t_employee e,
+        t_nation n,
+        t_politics_status p,
+        t_department d,
+        t_joblevel j,
+        t_position pos
+        WHERE
+        e.nationId = n.id
+        AND e.politicId = p.id
+        AND e.departmentId = d.id
+        AND e.jobLevelId = j.id
+        AND e.posId = pos.id
+        <if test="null!=ids and ids.length > 0">
+            and e.id in
+             <foreach collection="ids" item="id" open="(" close=")" separator="," index="index">
+                 #{id}
+             </foreach>
+        </if>
+        ORDER BY e.id
+    </select>
 </mapper>

@@ -1,5 +1,6 @@
 package org.feng.server.entity;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -34,6 +35,7 @@ public class Department implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
+    @Excel(name = "部门名称")
     @ApiModelProperty(value = "部门名称")
     private String name;
 
