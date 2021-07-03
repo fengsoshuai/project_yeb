@@ -7,8 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
@@ -16,14 +15,16 @@ import java.util.List;
 
 /**
  * <p>
- *  部门实体
+ *  部门实体：重写hashcode和equals，name唯一并不能为空
  * </p>
  *
  * @author FengJinSong
  * @since 2021-06-16
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
+@NoArgsConstructor
+@RequiredArgsConstructor
+@EqualsAndHashCode(callSuper = false, of = "name")
 @Accessors(chain = true)
 @TableName("t_department")
 @ApiModel(value="Department对象", description="部门实体对象，包含子级部门")
@@ -35,6 +36,7 @@ public class Department implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
+    @NonNull
     @Excel(name = "部门名称")
     @ApiModelProperty(value = "部门名称")
     private String name;

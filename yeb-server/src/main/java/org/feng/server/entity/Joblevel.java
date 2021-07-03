@@ -7,8 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.feng.server.config.annotation.BeanHasCreateDate;
 
@@ -17,15 +16,17 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- *  职称实体
+ *  职称实体：重写hashcode和equals，name唯一并不能为空
  * </p>
  *
  * @author FengJinSong
  * @since 2021-06-16
  */
 @Data
+@RequiredArgsConstructor
+@NoArgsConstructor
 @BeanHasCreateDate
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = false, of = "name")
 @Accessors(chain = true)
 @TableName("t_joblevel")
 @ApiModel(value="Joblevel对象")
@@ -37,6 +38,7 @@ public class Joblevel implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
+    @NonNull
     @Excel(name = "职称名称")
     @ApiModelProperty(value = "职称名称")
     private String name;
