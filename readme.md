@@ -15,6 +15,7 @@
 + MySQL 8 数据存储
 + Lombok 插件 （Java 实体类的 Setter和 Getter等）
 + Hutool 工具包（非空判断，登陆验证码生成等）
++ easy-poi 工具
 
 ## 2. yeb-generator 模块
 
@@ -37,7 +38,7 @@
 + 完整的登陆模块实现，验证码使用了`Hutool`中的四则运算验证。
 + 部门管理，在添加和删除时使用了存储过程。
 + 管理员管理，包含管理员查询，修改以及删除功能。
-+ 员工管理，包含员工的分页查询（含搜索），添加以及修改、删除功能（修改和删除正在实现）。
++ 员工管理，包含员工的分页查询（含搜索），添加以及修改、删除功能，导入导出。
 + ...未完待续
 
 ### 3.1部门管理中的存储过程
@@ -90,6 +91,8 @@ end
 本模块是全局工具类。目前实现了：
 
 + StringUtil，继承了Hutool中的StrUtil类，并增加自己的方法。
++ Consts，定义常用的字符串常量
++ DecimalFormatUtil，格式化小数，保留到小数点后2位
 + ...未完待续
 
 
@@ -101,6 +104,8 @@ end
 ### 5.1 Swagger2的测试界面
 
 <img src='https://github.com/fengsoshuai/project_yeb/blob/master/img/pic1.png'/>
+
+<img src='https://github.com/fengsoshuai/project_yeb/blob/master/img/pic2.png'/>
 
 
 
