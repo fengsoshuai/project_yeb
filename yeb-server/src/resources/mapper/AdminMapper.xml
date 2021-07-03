@@ -22,5 +22,42 @@
         id, name, phone, telephone, address, enabled, username, password, userFace, remark
     </sql>
 
+    <resultMap id="AdminWithRole" type="org.feng.server.entity.Admin"
+               extends="BaseResultMap">
+        <collection property="roles" ofType="org.feng.server.entity.Role">
+            <id column="rid" property="id" />
+            <result column="rname" property="name" />
+            <result column="rnameZh" property="nameZh" />
+        </collection>
+    </resultMap>
+
+    <!--获取所有操作员-->
+    <select id="getAllAdmins" resultMap="AdminWithRole">
+        SELECT
+        a.id,
+        a.`name`,
+        a.phone,
+        a.telephone,
+        a.address,
+        a.enabled,
+        a.username,
+        a.userface,
+        a.remark,
+        r.id AS rid,
+        r.`name` AS rname,
+        r.nameZh AS rnameZh
+        FROM
+        t_admin AS a
+        LEFT JOIN t_admin_role AS ar ON ar.adminId = a.id
+        LEFT JOIN t_role AS r ON ar.rid = r.id
+        WHERE
+        a.id != #{id}
+        <if test="null!=keywords and ''!=keywords">
+            AND a.name like concat ('%',#{keywords},'%')
+        </if>
+        ORDER BY
+        a.id
+    </select>
+
 
 </mapper>

@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 
 /**
  * <p>
- * 
+ *  管理员实体
  * </p>
  *
  * @author FengJinSong
