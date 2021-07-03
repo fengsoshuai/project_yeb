@@ -2,8 +2,8 @@ package org.feng.server.controller;
 
 
 import io.swagger.annotations.ApiOperation;
+import org.feng.consts.Consts;
 import org.feng.server.entity.Employee;
-import org.feng.server.entity.PoliticsStatus;
 import org.feng.server.entity.ResponseBean;
 import org.feng.server.entity.ResponsePageBean;
 import org.feng.server.service.*;
@@ -83,9 +83,26 @@ public class EmployeeController {
         return employeeService.getMaxWorkId();
     }
 
-    @PutMapping("/")
+    @PostMapping("/")
     @ApiOperation("添加员工")
     public ResponseBean addEmployee(@RequestBody Employee employee){
         return employeeService.addEmployee(employee);
+    }
+
+    @PutMapping("/")
+    @ApiOperation("修改员工信息")
+    public ResponseBean updateEmployee(@RequestBody Employee employee){
+        if(employeeService.updateById(employee)){
+            return ResponseBean.success(Consts.UPDATE_SUCCESS);
+        }
+        return ResponseBean.error(Consts.UPDATE_FAILED);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseBean deleteEmployee(@PathVariable Integer id){
+        if(employeeService.removeById(id)){
+            return ResponseBean.success(Consts.DELETE_SUCCESS);
+        }
+        return ResponseBean.error(Consts.DELETE_FAILED);
     }
 }
