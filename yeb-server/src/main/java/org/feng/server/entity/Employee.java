@@ -44,6 +44,7 @@ public class Employee implements Serializable {
     @ApiModelProperty(value = "性别")
     private String gender;
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Shanghai")
     @ApiModelProperty(value = "出生日期")
     private LocalDate birthday;
 
@@ -108,12 +109,15 @@ public class Employee implements Serializable {
     @ApiModelProperty(value = "转正日期")
     private LocalDate conversionTime;
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Shanghai")
     @ApiModelProperty(value = "离职日期")
     private LocalDate notWorkDate;
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Shanghai")
     @ApiModelProperty(value = "合同起始日期")
     private LocalDate beginContract;
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Shanghai")
     @ApiModelProperty(value = "合同终止日期")
     private LocalDate endContract;
 
@@ -127,4 +131,23 @@ public class Employee implements Serializable {
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createDate;
 
+    @ApiModelProperty(value = "民族")
+    @TableField(exist = false)
+    private Nation nation;
+
+    @ApiModelProperty(value = "政治面貌")
+    @TableField(exist = false)
+    private PoliticsStatus politicsStatus;
+
+    @ApiModelProperty(value = "部门")
+    @TableField(exist = false)
+    private Department department;
+
+    @ApiModelProperty(value = "职称")
+    @TableField(exist = false)
+    private Joblevel joblevel;
+
+    @ApiModelProperty(value = "职位")
+    @TableField(exist = false)
+    private Position position;
 }
