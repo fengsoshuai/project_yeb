@@ -3,6 +3,7 @@
 ### 1.1 项目简介
 
 ​		本项目使用了 SpringBoot 等技术构建了一个云办公管理平台。
+        使用Vue + Element UI 做前端页面。
 
 
 
@@ -16,6 +17,7 @@
 + Lombok 插件 （Java 实体类的 Setter和 Getter等）
 + Hutool 工具包（非空判断，登陆验证码生成等）
 + easy-poi 工具
++ Vue + Element UI
 
 ## 2. yeb-generator 模块
 
@@ -97,6 +99,12 @@ end
 
 
 
+
+## 5. yeb-front 模块
+
+本模块是管理系统的页面展示。目前实现了：
+
++ 暂无
 
 
 ## 5. 部分截图
