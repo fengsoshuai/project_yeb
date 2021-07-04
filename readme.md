@@ -17,7 +17,7 @@
 + Lombok 插件 （Java 实体类的 Setter和 Getter等）
 + Hutool 工具包（非空判断，登陆验证码生成等）
 + easy-poi 工具
-+ Vue + Element UI
++ Vue + Element UI + WebPack
 
 ## 2. yeb-generator 模块
 
