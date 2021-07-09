@@ -3,7 +3,7 @@
 ### 1.1 项目简介
 
 ​		本项目使用了 SpringBoot 等技术构建了一个云办公管理平台。
-        使用Vue + Element UI 做前端页面。
+​        使用Vue + Element UI 做前端页面。
 
 
 
@@ -12,7 +12,7 @@
 + Java 1.8版本（涉及一些Stream处理）+ Idea开发工具
 + Maven Jar包管理
 + Spring Security + SpringBoot + Mybatis Plus 数据库访问和控制器、逆向工程
-+ Redis 用做缓存（管理列表菜单缓存）
++ Redis 用做缓存（管理列表菜单缓存、登陆验证码）
 + MySQL 8 数据存储
 + Lombok 插件 （Java 实体类的 Setter和 Getter等）
 + Hutool 工具包（非空判断，登陆验证码生成等）
@@ -100,11 +100,11 @@ end
 
 
 
-## 5. yeb-front 模块
+## 5. yeb-ui模块
 
 本模块是管理系统的页面展示。目前实现了：
 
-+ 暂无
++ 登陆页面，验证码使用了redis做为存储校验
 
 ### 5.1 webpack 安装
 使用以下命令：
@@ -128,5 +128,7 @@ npm install webpack webpack-cli -g
 
 <img src='https://github.com/fengsoshuai/project_yeb/blob/master/img/pic2.png'/>
 
+### 6.2 登陆页
 
+<img src='https://github.com/fengsoshuai/project_yeb/blob/master/img/pic3.png'/>
 
