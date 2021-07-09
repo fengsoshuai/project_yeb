@@ -3,7 +3,7 @@
 ### 1.1 项目简介
 
 ​		本项目使用了 SpringBoot 等技术构建了一个云办公管理平台。
-        使用Vue + Element UI 做前端页面。
+​        使用Vue + Element UI 做前端页面。
 
 
 
@@ -101,12 +101,45 @@ end
 
 
 ## 5. yeb-front 模块
+### 5.1 项目创建（cmd命令窗口中使用以下命令）
+
+安装node.js（不详说）
+
+```shell
+# 设置镜像，解决npm速度慢的问题
+npm config set registry http://registry.npm.taobao.org
+
+# 检查vue 版本
+D:\projects\project_yeb>vue --version
+@vue/cli 4.5.9
+# 开始创建
+D:\projects\project_yeb>vue create yeb-front
+暂时选择安装 Babel 和 Router 其他先不安装
+```
+
+![](img\pic3.png)
+
+![](img\pic4.png)
+
+### 5.2 使用Element
+
+```shell
+# 在vue项目下，安装插件
+# -s ：将模块安装到项目目录下，并在 package 文件的 dependencies 节点写入依赖
+D:\projects\project_yeb\yeb-front>npm i element-ui -S
+```
+
+
+
+
+
+
 
 本模块是管理系统的页面展示。目前实现了：
 
 + 暂无
 
-### 5.1 webpack 安装
+### 5.4 webpack 安装
 使用以下命令：
 ```text
 # 更换淘宝镜像源，如果没有更换过的话执行这一步
@@ -124,9 +157,7 @@ npm install webpack webpack-cli -g
 
 ### 6.1 Swagger2的测试界面
 
-<img src='https://github.com/fengsoshuai/project_yeb/blob/master/img/pic1.png'/>
+![](img\pic1.png)
 
-<img src='https://github.com/fengsoshuai/project_yeb/blob/master/img/pic2.png'/>
-
-
+![](img\pic2.png)
 
