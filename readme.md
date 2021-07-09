@@ -106,10 +106,23 @@ end
 
 + 暂无
 
+### 5.1 webpack 安装
+使用以下命令：
+```text
+# 更换淘宝镜像源，如果没有更换过的话执行这一步
+npm config set registry http://registry.npm.taobao.org
+# 安装 webpack
+npm install webpack webpack-cli -g
 
-## 5. 部分截图
+调试时 `wepack --watch` 命令，也可以用 `webpack` 直接打包，但是修改文件时不会即时生效。
+```
 
-### 5.1 Swagger2的测试界面
+
+
+
+## 6. 部分截图
+
+### 6.1 Swagger2的测试界面
 
 <img src='https://github.com/fengsoshuai/project_yeb/blob/master/img/pic1.png'/>
 
