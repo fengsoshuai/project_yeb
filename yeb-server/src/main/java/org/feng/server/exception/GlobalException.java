@@ -1,6 +1,8 @@
 package org.feng.server.exception;
 
 import org.feng.server.entity.ResponseBean;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -27,4 +29,19 @@ public class GlobalException {
 
         return ResponseBean.error("数据库异常，操作失败");
     }
+
+    /**
+     * 用户登陆失败：
+     * <ul>
+     *     <li>用户名或密码不正确</li>
+     * </ul>
+     */
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseBean authentication(AuthenticationException exception){
+        if(exception instanceof UsernameNotFoundException){
+            return ResponseBean.error(exception.getMessage());
+        }
+        return ResponseBean.error("用户登陆失败");
+    }
+
 }

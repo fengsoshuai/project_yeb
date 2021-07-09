@@ -16,6 +16,7 @@ import org.feng.server.service.IAdminService;
 import org.feng.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -57,22 +58,21 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     private JwtTokenUtil jwtTokenUtil;
     @Value("${jwt.tokenHead}")
     private String tokenHead;
-
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
 
     @Override
     public ResponseBean login(String username, String password, String code, HttpServletRequest request) {
-        // 校验验证码
-        Object captcha = request.getSession().getAttribute("captcha");
-        if(Objects.nonNull(captcha)){
-            if(StringUtil.isEmpty(code)){
-                return ResponseBean.error("验证码不能为空");
-            }
-            boolean verifyCode = new MathGenerator().verify(captcha.toString(), code);
-            if(!verifyCode){
-                return ResponseBean.error("验证码错误");
-            }
+        if(StringUtil.isEmpty(code)){
+            return ResponseBean.error("验证码不能为空");
         }
-
+        // 校验验证码
+        // Object captcha = request.getSession().getAttribute("captcha");
+        // 验证码从redis获取
+        Object captcha = redisTemplate.opsForValue().get(String.valueOf(code.hashCode()));
+        if(Objects.isNull(captcha)){
+            return ResponseBean.error("验证码错误");
+        }
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         // 用户名或密码校验不通过
         if(userDetails == null || passwordEncoder.matches(password, userDetails.getPassword())){

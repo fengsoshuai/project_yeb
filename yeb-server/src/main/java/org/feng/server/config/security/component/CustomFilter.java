@@ -26,7 +26,7 @@ public class CustomFilter implements FilterInvocationSecurityMetadataSource {
     @Autowired
     private IMenuService menuService;
 
-    private AntPathMatcher antPathMatcher = new AntPathMatcher();
+    private final AntPathMatcher antPathMatcher = new AntPathMatcher();
 
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {

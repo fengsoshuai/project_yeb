@@ -3,7 +3,10 @@ package org.feng.server.controller;
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.ShearCaptcha;
 import cn.hutool.captcha.generator.MathGenerator;
+import cn.hutool.core.math.Calculator;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -23,6 +27,9 @@ import java.io.IOException;
  */
 @RestController
 public class CaptchaController {
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
+
     @ApiOperation(value = "验证码")
     @GetMapping(value = "/captcha",produces = "image/jpeg")
     public void captcha(HttpServletRequest request, HttpServletResponse response){
@@ -41,9 +48,10 @@ public class CaptchaController {
         // 自定义验证码内容为四则运算方式
         captcha.setGenerator(new MathGenerator());
         captcha.createCode();
-
-        // 保存计算式到session
-        request.getSession().setAttribute("captcha", captcha.getCode());
+        // 计算等式结果
+        final int calculateResult = (int) Calculator.conversion(captcha.getCode());
+        // 验证码计算结果使用redis保存30分钟
+        redisTemplate.opsForValue().set(String.valueOf(String.valueOf(calculateResult).hashCode()), captcha.getCode(), 30, TimeUnit.MINUTES);
         // 生成图片并刷新到页面
         BufferedImage image = (BufferedImage) captcha.createImage(captcha.getCode());
         try (ServletOutputStream outputStream = response.getOutputStream()){

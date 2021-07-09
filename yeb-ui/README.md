@@ -1,4 +1,4 @@
-# yeb-front
+# yeb-ui
 
 ## Project setup
 ```
