@@ -124,11 +124,11 @@ npm install webpack webpack-cli -g
 
 ### 6.1 Swagger2的测试界面
 
-<img src='https://github.com/fengsoshuai/project_yeb/blob/master/img/pic1.png'/>
+<img src='img/pic1.png'/>
 
-<img src='https://github.com/fengsoshuai/project_yeb/blob/master/img/pic2.png'/>
+<img src='img/pic2.png'/>
 
 ### 6.2 登陆页
 
-<img src='https://github.com/fengsoshuai/project_yeb/blob/master/img/pic3.png'/>
+<img src='img/pic3.png'/>
 
