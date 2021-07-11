@@ -8,7 +8,7 @@ import router from "@/router";
 /**
  * 拦截请求，设置请求头
  */
-axios.interceptors.request.use(config=>{
+axios.interceptors.request.use(config => {
     if (window.sessionStorage.getItem('tokenStr')) {
         // 请求携带自定义token
         config.headers['Authorization'] = window.sessionStorage.getItem('tokenStr');
@@ -52,8 +52,6 @@ axios.interceptors.response.use(success => {
         }
     });
 
-let base = 'http://localhost:80'
-
 /**
  * axios 发送 post 请求
  * @param url 请求地址
@@ -61,10 +59,24 @@ let base = 'http://localhost:80'
  * @returns 响应结果
  */
 export const postRequest = (url, params) => {
-    return axios({
-        method: 'post',
-        url: `${base}${url}`,
-        data: params
+    return axios.post(url, params)
+}
+
+
+/**
+ * axios Promise封装发送 post 请求
+ * @param url 请求地址
+ * @param params json 请求参数
+ * @returns 响应结果
+ */
+export function post(url, params = {}) {
+    return new Promise((resolve, reject) => {
+        axios.post(url, params)
+            .then(response => {
+                resolve(response.data)
+            }).catch(err => {
+                reject(err)
+        })
     })
 }
 
@@ -75,10 +87,23 @@ export const postRequest = (url, params) => {
  * @returns 响应结果
  */
 export const putRequest = (url, params) => {
-    return axios({
-        method: 'put',
-        url: `${base}${url}`,
-        data: params
+    return axios.put(url, params)
+}
+
+/**
+ * axios Promise封装发送 put 请求
+ * @param url 请求地址
+ * @param params json 请求参数
+ * @returns 响应结果
+ */
+export function put(url, params = {}) {
+    return new Promise((resolve, reject) => {
+        axios.put(url, params)
+            .then(response => {
+                resolve(response.data)
+            }).catch(err => {
+            reject(err)
+        })
     })
 }
 /**
@@ -88,12 +113,26 @@ export const putRequest = (url, params) => {
  * @returns 响应结果
  */
 export const getRequest = (url, params) => {
-    return axios({
-        method: 'get',
-        url: `${base}${url}`,
-        data: params
+    return axios.get(url, params)
+}
+
+/**
+ * axios Promise封装发送 get 请求
+ * @param url 请求地址
+ * @param params json 请求参数
+ * @returns 响应结果
+ */
+export function get(url, params = {}) {
+    return new Promise((resolve, reject) => {
+        axios.get(url, params)
+            .then(response => {
+                resolve(response.data)
+            }).catch(err => {
+            reject(err)
+        })
     })
 }
+
 
 /**
  * axios 发送 delete 请求
@@ -102,9 +141,21 @@ export const getRequest = (url, params) => {
  * @returns 响应结果
  */
 export const deleteRequest = (url, params) => {
-    return axios({
-        method: 'delete',
-        url: `${base}${url}`,
-        data: params
+    return axios.delete(url, params)
+}
+/**
+ * axios Promise封装发送 delete 请求
+ * @param url 请求地址
+ * @param params json 请求参数
+ * @returns 响应结果
+ */
+export function del(url, params = {}) {
+    return new Promise((resolve, reject) => {
+        axios.delete(url, params)
+            .then(response => {
+                resolve(response.data)
+            }).catch(err => {
+            reject(err)
+        })
     })
 }

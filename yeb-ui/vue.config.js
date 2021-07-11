@@ -5,7 +5,7 @@ proxyObj['/'] = {
     // 目标地址
     target: 'http://localhost:80',
     // 发送请求头中host会设置成target
-    changeOrigin: false,
+    changeOrigin: true,
     // 不重写请求地址
     pathRewrite: {
         '^/': '/'

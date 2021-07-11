@@ -4,7 +4,8 @@
              element-loading-text="正在登陆..."
              element-loading-spinner="element-loading-spinner"
              element-loading-background="element-loading-background"
-             :rules="rules" ref="loginForm" :model="loginForm" class="loginContainer">
+             :rules="rules" ref="loginForm" :model="loginForm" class="loginContainer" v-bind:style="{background: loginContainerBack}">
+      <el-color-picker v-model="loginContainerBack" size="mini"></el-color-picker>
       <h3 class="loginTitle">系统登陆</h3>
       <el-form-item prop="username">
         <el-input type="text" auto-complete="false" v-model="loginForm.username" placeholder="请输入登陆名"/>
@@ -46,7 +47,8 @@ export default {
           { required: true, message: '验证码不能为空', trigger: 'blur' }
         ],
       },
-      loading: false
+      loading: false,
+      loginContainerBack: '#fff'
     }
   },
   methods: {
