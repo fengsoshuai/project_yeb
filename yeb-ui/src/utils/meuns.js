@@ -5,7 +5,7 @@ export const initMenu = (router, store) => {
         return;
     }
 
-    getRequest('/system/cfg/menu').then(data => {
+    getRequest('/system/cfg/menus').then(data => {
         if(data){
             // 格式化路由
             let formatRouters = formatRouter(data)
@@ -16,10 +16,13 @@ export const initMenu = (router, store) => {
     })
 }
 
+const routeList = ["Emp", "Per", "Sal", "Sta", "Sys"]
+
 export const formatRouter = (routers) => {
+
     let formatRouters = []
     routers.forEach(router => {
-        let {path, component, name, iconCls,children} = router
+        let {path, component, name, iconCls, children} = router
         if(children && children instanceof Array){
             children = formatRouter(children)
         }
@@ -30,18 +33,11 @@ export const formatRouter = (routers) => {
             iconCls: iconCls,
             children: children,
             component(resolve) {
-                if(component.startsWith("Home")) {
+                let route = routeList.filter(item => component.startsWith(item))[0]
+                if(route){
+                    require(['../views/'+ route.toLowerCase() + '/' + component + '.vue'], resolve)
+                } else {
                     require(['../views/' + component + '.vue'], resolve);
-                } else if (component.startsWith("Emp")) {
-                    require(['../views/emp/' + component + '.vue'], resolve);
-                } else if (component.startsWith("Per")) {
-                    require(['../views/per/' + component + '.vue'], resolve);
-                } else if (component.startsWith("Sal")) {
-                    require(['../views/sal/' + component + '.vue'], resolve);
-                } else if (component.startsWith("Sta")) {
-                    require(['../views/sta/' + component + '.vue'], resolve);
-                } else if (component.startsWith("Sys")) {
-                    require(['../views/sys/' + component + '.vue'], resolve);
                 }
             }
         }
