@@ -45,7 +45,7 @@ public class LoginController {
 
     @ApiOperation(value = "获取当前登陆用户信息")
     @GetMapping("/admin/info")
-    public ResponseBean getAdminInfo(Principal principal){
+    public Admin getAdminInfo(Principal principal){
         if(principal == null){
             return null;
         }
@@ -54,6 +54,6 @@ public class LoginController {
         Admin admin = adminService.getAdminByUserName(username);
         admin.setPassword(null);
         admin.setRoles(adminService.getRoles(admin.getId()));
-        return ResponseBean.response(200, "用户信息获取成功", admin);
+        return admin;
     }
 }

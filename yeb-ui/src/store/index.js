@@ -7,13 +7,17 @@ Vue.use(Vuex)
  */
 export default new Vuex.Store({
     state: {
-        routes: []
+        routes: [],
+        currentAdmin: JSON.parse(window.sessionStorage.getItem('currentUser'))
     },
 
     // 同步修改 state
     mutations: {
         initRoutes(state, data){
             state.routes = data
+        },
+        initAdmin(state, admin){
+            state.currentAdmin = admin;
         }
     },
 

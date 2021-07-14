@@ -16,6 +16,7 @@ Vue.use(ElementUI)
 import {postRequest, getRequest, putRequest, deleteRequest} from "@/utils/api";
 import {post, get, put, del} from "@/utils/api";
 import {initMenu} from "@/utils/meuns";
+import 'font-awesome/css/font-awesome.css'
 
 Vue.prototype.postRequest = postRequest
 Vue.prototype.getRequest = getRequest
@@ -25,16 +26,27 @@ Vue.prototype.deleteRequest = deleteRequest
 Vue.prototype.post = post
 Vue.prototype.get = get
 Vue.prototype.put = put
-Vue.prototype.del = del
+Vue.prototype.dele = del
 
 // 全局前置导航守卫
 router.beforeEach((to, from, next)=>{
-  if (to.path==='/'){
-    next()
-  } else {
-    initMenu(router,store);
+  // 用户已经登陆
+  if(window.sessionStorage.getItem("tokenStr")){
+    initMenu(router, store);
     next();
+    // 获取当前登陆用户信息
+    if(!window.sessionStorage.getItem("currentUser")){
+      return getRequest('/admin/info').then(resp => {
+        if(resp){
+          window.sessionStorage.setItem("currentUser", JSON.stringify(resp))
+          next();
+        }
+        next();
+      })
+    }
+    next()
   }
+  next()
 })
 
 
