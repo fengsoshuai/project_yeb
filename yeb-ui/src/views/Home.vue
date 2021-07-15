@@ -26,7 +26,14 @@
           </el-menu>
         </el-aside>
         <el-main>
-          <router-view/>
+          <el-breadcrumb separator-class="el-icon-arrow-right" v-if="this.$router.currentRoute.path !== '/home'">
+            <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item>{{this.$router.currentRoute.name}}</el-breadcrumb-item>
+          </el-breadcrumb>
+          <div class="homeContent" v-if="this.$router.currentRoute.path === '/home'">
+            欢迎登陆云办公系统！
+          </div>
+          <router-view class="homeRouterView"/>
         </el-main>
       </el-container>
     </el-container>
@@ -100,5 +107,16 @@ export default {
     width: 106px;
     justify-content: space-between;
     color: white;
+  }
+
+  .homeContent {
+    text-align: center;
+    font-size: 30px;
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    color: #558CEFFF;
+    padding-top: 70px;
+  }
+  .homeRouterView {
+    margin-top: 20px;
   }
 </style>

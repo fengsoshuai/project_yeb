@@ -117,7 +117,11 @@ npm install webpack webpack-cli -g
 调试时 `wepack --watch` 命令，也可以用 `webpack` 直接打包，但是修改文件时不会即时生效。
 ```
 
-
+### 5.2 基础信息管理-职位管理
+#### 5.2.1
++ 添加职位
++ 查询职位
+<img src="img/pic4.png">
 
 
 ## 6. 部分截图

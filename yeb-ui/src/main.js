@@ -44,7 +44,13 @@ router.beforeEach((to, from, next)=>{
         next();
       })
     }
-    next()
+    next();
+  } else {
+    if(to.path === '/'){
+      next();
+    } else {
+      next('/?redirect=' + to.path);
+    }
   }
   next()
 })

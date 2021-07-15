@@ -2,6 +2,8 @@ package org.feng.server.config.security.component;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -16,15 +18,15 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * Swagger 配置 & Cors 配置
  * @author FengJinSong
  */
 @Configuration
 @EnableSwagger2
-public class Swagger2Config {
+public class Swagger2Config implements WebMvcConfigurer {
 
     /**
      * 规定扫描哪些包
-     * @return
      */
     @Bean
     public Docket createRestApi(){
@@ -34,7 +36,7 @@ public class Swagger2Config {
                 .apis(RequestHandlerSelectors.basePackage("org.feng.server.controller"))
                 .paths(PathSelectors.any())
                 .build()
-                .securityContexts(securityContexts())
+                //.securityContexts(securityContexts())
                 .securitySchemes(securitySchemes());
     }
 
@@ -74,5 +76,13 @@ public class Swagger2Config {
         return result;
     }
 
-
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOriginPatterns("*")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD")
+                .allowCredentials(true)
+                .maxAge(3600)
+                .allowedHeaders("*");
+    }
 }

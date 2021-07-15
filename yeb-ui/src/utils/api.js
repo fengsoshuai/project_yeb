@@ -29,7 +29,7 @@ axios.interceptors.response.use(success => {
             Message.error({message: success.data.message})
             return
         }
-        if(success.data.message){
+        if(success.data.message && success.data.message !== 'success'){
             Message.success({message: success.data.message})
         }
     }

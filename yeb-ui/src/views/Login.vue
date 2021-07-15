@@ -63,7 +63,9 @@ export default {
               // 存储用户token
               const tokenStr = resp.object.tokenHead + ' ' + resp.object.token;
               window.sessionStorage.setItem('tokenStr', tokenStr);
-              this.$router.replace('/home');
+              // get请求接收redirect参数，参考：https://www.cnblogs.com/zhangruiqi/p/9412539.html
+              let path = this.$route.query.redirect;
+              this.$router.replace((path === '/' || path === undefined) ? '/home' : path);
             }
           })
         } else {
