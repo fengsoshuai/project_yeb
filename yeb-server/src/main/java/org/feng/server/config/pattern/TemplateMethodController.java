@@ -97,7 +97,6 @@ public abstract class TemplateMethodController<T> {
         initService();
         try {
             beforeDeletes(ids);
-            delete(ids);
             if(service.removeByIds(Arrays.asList(ids))){
                 afterDeletes(ids);
                 return ResponseBean.success(Consts.DELETE_SUCCESS);
