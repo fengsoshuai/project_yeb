@@ -9,7 +9,7 @@
           v-model="positionInputValue.name">
       </el-input>
     <!--添加按钮-->
-      <el-button size="small" icon="el-icon-plus" type="primary" @click="addPosition">添加</el-button>
+    <el-button size="small" icon="el-icon-plus" type="primary" @click="addPosition">添加</el-button>
     </div>
     <!--表格数据-->
     <div class="positionData">
@@ -17,7 +17,8 @@
           :data="tableData"
           height="620"
           border
-          style="width: 100%"
+          width="70%"
+          size="small"
           :header-cell-style="cellStyle"
           :cell-style="cellHeaderStyle"
           @selection-change="handleSelectPositions">
@@ -40,13 +41,31 @@
             label="是否启用"
             width="180">
           <template slot-scope="scope">
-            <el-switch
-                v-model="scope.row.enabled"
-                :active-value="true"
-                :inactive-value="false"
-                active-color="#13ce66"
-                inactive-color="#ff4949" @change="changeEnabled(scope.row)">
-            </el-switch>
+            <div class="enableSwitch">
+              <el-switch
+                  v-model="scope.row.enabled"
+                  :active-value="true"
+                  :inactive-value="false"
+                  active-color="#13ce66"
+                  inactive-color="#ff4949" @change="changeEnabled(scope.row)">
+              </el-switch>
+              <el-tag
+                  size="mini"
+                  v-if="scope.row.enabled"
+                  :key="scope.row.id"
+                  type="success"
+                  effect="dark">
+                已启用
+              </el-tag>
+              <el-tag
+                  size="mini"
+                  v-if="!scope.row.enabled"
+                  :key="scope.row.id"
+                  type="danger"
+                  effect="dark">
+                未启用
+              </el-tag>
+            </div>
           </template>
         </el-table-column>
         <el-table-column
@@ -124,6 +143,7 @@ export default {
         this.postRequest('/system/basic/pos/', this.positionInputValue).then(resp => {
           if(resp.code === 200){
             this.initPositions()
+            this.positionInputValue = {}
           }
         })
       } else {
@@ -241,5 +261,12 @@ export default {
 .batchDeleteButton {
   margin-top: 8px;
   margin-bottom: 8px;
+}
+
+.enableSwitch {
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+  margin-left: 20%;
 }
 </style>
