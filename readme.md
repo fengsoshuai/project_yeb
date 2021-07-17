@@ -143,6 +143,7 @@ npm install webpack webpack-cli -g
 
 <img src="img/pic7.png">
 
+<img src="img/pic8.png">
 
 ## 6. 部分截图
 
