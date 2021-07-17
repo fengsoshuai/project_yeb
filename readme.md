@@ -145,6 +145,14 @@ npm install webpack webpack-cli -g
 
 <img src="img/pic8.png">
 
+### 5.4 系统管理-基础信息管理-权限组
+
++ 添加角色，给角色赋权限
++ 修改角色权限
++ 删除角色，删除前先将角色对应的权限取消
+
+<img src="img/pic9.png">
+
 ## 6. 部分截图
 
 ### 6.1 Swagger2的测试界面

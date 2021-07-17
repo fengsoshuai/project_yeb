@@ -34,7 +34,7 @@ export default {
   data(){
     return {
       // 当前显示标签
-      activeName: 'JoblevelManage'
+      activeName: 'PermissionManage'
     }
   },
   components: {
