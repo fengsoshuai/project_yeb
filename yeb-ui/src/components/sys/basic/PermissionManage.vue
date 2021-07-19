@@ -157,6 +157,8 @@ export default {
 .mainCollapse {
   margin-top: 8px;
   width: 700px;
+  height: 680px;
+  overflow-y: scroll;
 }
 
 .treeOperationButton {

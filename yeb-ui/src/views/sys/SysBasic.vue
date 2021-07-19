@@ -2,7 +2,7 @@
   <div>
     <el-tabs type="border-card" v-model="activeName">
       <el-tab-pane name="DepManage">
-        <span slot="label"><i class="el-icon-date"></i>部门管理</span>
+        <span slot="label"><i class="el-icon-ship"></i>部门管理</span>
         <DepManage></DepManage>
       </el-tab-pane>
       <el-tab-pane label="职位管理" name="PosManage">
@@ -34,7 +34,7 @@ export default {
   data(){
     return {
       // 当前显示标签
-      activeName: 'PermissionManage'
+      activeName: 'DepManage'
     }
   },
   components: {
