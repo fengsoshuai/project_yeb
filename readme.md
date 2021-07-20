@@ -161,6 +161,19 @@ npm install webpack webpack-cli -g
 
 <img src="img/pic10.png">
 
+
+### 5.6 系统管理-管理员管理
+
++ 管理员展示（使用标签页布局）
++ 搜索（包含无数据时的展示）
+
+<img src="img/pic11.png">
+
+<img src="img/pic12.png">
+
+<img src="img/pic13.png">
+
+
 ## 6. 部分截图
 
 ### 6.1 Swagger2的测试界面
