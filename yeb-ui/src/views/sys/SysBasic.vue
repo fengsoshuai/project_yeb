@@ -11,9 +11,9 @@
       <el-tab-pane label="职称管理" name="JoblevelManage">
         <JoblevelManage></JoblevelManage>
       </el-tab-pane>
-      <el-tab-pane label="奖惩规则" name="EcManage">
+      <!--<el-tab-pane label="奖惩规则" name="EcManage">
         <EcManage></EcManage>
-      </el-tab-pane>
+      </el-tab-pane>-->
       <el-tab-pane label="权限组" name="PermissionManage">
         <PermissionManage></PermissionManage>
       </el-tab-pane>
@@ -24,7 +24,7 @@
 <script>
 
 import DepManage from "@/components/sys/basic/DepManage";
-import EcManage from "@/components/sys/basic/EcManage";
+// import EcManage from "@/components/sys/basic/EcManage";
 import JoblevelManage from "@/components/sys/basic/JoblevelManage";
 import PermissionManage from "@/components/sys/basic/PermissionManage";
 import PosManage from "@/components/sys/basic/PosManage";
@@ -38,7 +38,7 @@ export default {
     }
   },
   components: {
-    DepManage, EcManage, JoblevelManage, PermissionManage, PosManage
+    DepManage, /*EcManage,*/ JoblevelManage, PermissionManage, PosManage
   }
 
 
