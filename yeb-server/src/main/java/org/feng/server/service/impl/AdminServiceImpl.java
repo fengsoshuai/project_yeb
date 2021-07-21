@@ -1,6 +1,7 @@
 package org.feng.server.service.impl;
 
 import cn.hutool.captcha.generator.MathGenerator;
+import cn.hutool.core.util.ArrayUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.feng.consts.Consts;
@@ -115,6 +116,11 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     public ResponseBean updateAdminRole(Integer adminId, Integer[] rids) {
         // 删除所有权限
         adminRoleMapper.delete(new QueryWrapper<AdminRole>().eq("adminId", adminId));
+        // 去掉所有权限时
+        if(ArrayUtil.isEmpty(rids)){
+            return ResponseBean.success(Consts.UPDATE_SUCCESS);
+        }
+
         Integer rows = adminRoleMapper.addAdminRole(adminId, rids);
         if(rows == rids.length){
             return ResponseBean.success(Consts.UPDATE_SUCCESS);

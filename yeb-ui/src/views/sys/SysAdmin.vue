@@ -39,6 +39,24 @@
             </div>
             <div class="admin-info-role">用户角色：
               <el-tag class="admin-role-tag" size="small" v-for="(role, ind) in admin.roles" :key="ind">{{role.nameZh}}</el-tag>
+              <el-popover
+                  placement="right"
+                  title="角色列表"
+                  width="200"
+                  trigger="click"
+                  @show="showPopRoles(admin)"
+                  @hide="hidePopRoles(admin)"
+                  content="">
+                <el-select v-model="selectedRoles" placeholder="请选择..." multiple>
+                  <el-option
+                      v-for="(role, index) in allRoles"
+                      :key="index"
+                      :label="role.nameZh"
+                      :value="role.id">
+                  </el-option>
+                </el-select>
+                <el-button slot="reference" type="text" icon="el-icon-more"></el-button>
+              </el-popover>
             </div>
             <!--备注-->
             <div class="admin-info-remark">
@@ -57,7 +75,9 @@ export default {
   data(){
     return {
       keywords: '',
-      adminList: []
+      adminList: [],
+      allRoles: [],
+      selectedRoles: []
     }
   },
   methods: {
@@ -96,6 +116,46 @@ export default {
     enabledChange(admin){
       let instance = {id: admin.id, enabled: admin.enabled}
       this.put('/system/admin/', instance)
+    },
+    initAllRoles(){
+      this.getRequest('/system/admin/roles').then(resp => {
+        if(resp.code === 200){
+          this.allRoles = resp.object;
+        }
+      })
+    },
+    // 点击显示角色
+    showPopRoles(admin){
+      this.initAllRoles()
+      // 初始化
+      this.selectedRoles = []
+      let roles = admin.roles
+      this.selectedRoles = roles.map(role => role.id)
+    },
+    // 点击隐藏角色：包含更新角色
+    hidePopRoles(admin){
+      let isUpdateRole = false
+      let roles = []
+      Object.assign(roles, admin.roles)
+      // 角色个数发生变化
+      if(roles.length !== this.selectedRoles.length){
+        isUpdateRole = true
+      } else {
+        let ids = admin.roles.map(role => role.id).sort(_ => _).toString()
+        let idsTemp = this.selectedRoles.sort(_ => _).toString();
+        isUpdateRole = ids !== idsTemp
+      }
+
+      // 角色发生变化
+      if(isUpdateRole){
+        let rids = "";
+        this.selectedRoles.forEach(rid => rids += '&rids=' + rid);
+        this.putRequest('/system/admin/role?adminId=' + admin.id + rids).then(resp => {
+          if(resp.code === 200){
+            this.initAdminList()
+          }
+        })
+      }
     }
   },
 
