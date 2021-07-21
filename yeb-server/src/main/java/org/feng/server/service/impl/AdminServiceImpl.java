@@ -97,7 +97,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 
     @Override
     public Admin getAdminByUserName(String username) {
-        return adminMapper.selectOne(new QueryWrapper<Admin>().eq("username", username).eq("enabled", true));
+        return adminMapper.selectOne(new QueryWrapper<Admin>().eq("username", username));
     }
 
     @Override

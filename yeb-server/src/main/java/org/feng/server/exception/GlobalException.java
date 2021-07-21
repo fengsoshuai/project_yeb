@@ -34,14 +34,17 @@ public class GlobalException {
      * 用户登陆失败：
      * <ul>
      *     <li>用户名或密码不正确</li>
+     *     <li>用户被禁用</li>
      * </ul>
      */
-    @ExceptionHandler(AuthenticationException.class)
-    public ResponseBean authentication(AuthenticationException exception){
+    @ExceptionHandler({AuthenticationException.class, UserIsUnEnabledException.class})
+    public ResponseBean authentication(RuntimeException exception){
         if(exception instanceof UsernameNotFoundException){
+            return ResponseBean.error(exception.getMessage());
+        }
+        if(exception instanceof UserIsUnEnabledException){
             return ResponseBean.error(exception.getMessage());
         }
         return ResponseBean.error("用户登陆失败");
     }
-
 }

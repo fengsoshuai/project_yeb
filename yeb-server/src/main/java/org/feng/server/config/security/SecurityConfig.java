@@ -2,6 +2,7 @@ package org.feng.server.config.security;
 
 import org.feng.server.config.security.component.*;
 import org.feng.server.entity.Admin;
+import org.feng.server.exception.UserIsUnEnabledException;
 import org.feng.server.service.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -105,8 +106,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return username -> {
             Admin admin = adminService.getAdminByUserName(username);
             if (null != admin){
-                admin.setRoles(adminService.getRoles(admin.getId()));
-                return admin;
+                if(admin.isEnabled()){
+                    admin.setRoles(adminService.getRoles(admin.getId()));
+                    return admin;
+                }
+                throw new UserIsUnEnabledException("用户已经被禁用");
             }
             throw new UsernameNotFoundException("用户名或密码不正确");
         };

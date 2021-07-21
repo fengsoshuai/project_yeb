@@ -13,7 +13,7 @@
       <el-card class="admin-card" v-for="(admin, index) in adminList" :key="index">
         <div slot="header" class="clearfix">
           <span class="admin-card-title">{{admin.name}}</span>
-          <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-delete" class="remove-button" @click="removeAdmin(admin.id)"></el-button>
+          <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-delete" class="remove-button" @click="removeAdmin(admin)"></el-button>
         </div>
         <div class="">
           <!--头像-->
@@ -33,6 +33,7 @@
                   active-color="#13ce66"
                   inactive-color="red"
                   active-text="启用"
+                  @change="enabledChange(admin)"
                   inactive-text="禁用">
               </el-switch>
             </div>
@@ -73,8 +74,28 @@ export default {
       })
     },
     // 删除管理员
-    removeAdmin(adminId){
-
+    removeAdmin(admin){
+      this.$confirm('此操作将永久删除管理员【'+admin.name+'】, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.deleteRequest('/system/admin/' + admin.id).then(resp => {
+          if(resp && resp.code === 200){
+            this.initAdminList();
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+    },
+    // 更改启用状态
+    enabledChange(admin){
+      let instance = {id: admin.id, enabled: admin.enabled}
+      this.put('/system/admin/', instance)
     }
   },
 
