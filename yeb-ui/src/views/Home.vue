@@ -31,7 +31,19 @@
             <el-breadcrumb-item>{{this.$router.currentRoute.name}}</el-breadcrumb-item>
           </el-breadcrumb>
           <div class="homeContent" v-if="this.$router.currentRoute.path === '/home'">
-            欢迎登陆云办公系统！
+            <div class="tips">
+              欢迎来到云办公管理系统！
+            </div>
+            <el-calendar>
+              <!-- 这里使用的是 2.5 slot 语法，对于新项目请使用 2.6 slot 语法-->
+              <template
+                  slot="dateCell"
+                  slot-scope="{date, data}">
+                <p :class="data.isSelected ? 'is-selected' : ''">
+                  {{ data.day.split('-').slice(1).join('-') }} {{ data.isSelected ? '✔️' : ''}}
+                </p>
+              </template>
+            </el-calendar>
           </div>
           <router-view class="homeRouterView"/>
         </el-main>
@@ -109,12 +121,16 @@ export default {
     color: white;
   }
 
-  .homeContent {
+  .homeContent .tips{
     text-align: center;
     font-size: 30px;
     font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
     color: #558CEFFF;
-    padding-top: 70px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+  }
+  .is-selected {
+    color: #1989FA;
   }
   .homeRouterView {
     margin-top: 20px;

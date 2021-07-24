@@ -44,7 +44,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         // 查询当前最大工号
         List<Object> objects = employeeMapper.selectObjs(new QueryWrapper<Employee>().select("max(workId)"));
         // 最大工号+1，格式化
-        return ResponseBean.ok(String.format("%08d", Integer.valueOf(objects.get(0).toString()) + 1));
+        return ResponseBean.ok(String.format("%08d", Integer.parseInt(objects.get(0).toString()) + 1));
 
     }
 

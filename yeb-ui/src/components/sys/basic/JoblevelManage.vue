@@ -38,9 +38,9 @@
             width="45">
         </el-table-column>
         <el-table-column
-            prop="id"
-            label="职称编号"
-            width="180">
+            type="index"
+            label="#"
+            width="40">
         </el-table-column>
         <el-table-column
             prop="name"

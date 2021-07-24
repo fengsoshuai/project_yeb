@@ -166,12 +166,36 @@ npm install webpack webpack-cli -g
 
 + 管理员展示（使用标签页布局）
 + 搜索（包含无数据时的展示）
++ 删除功能
++ 角色分配
++ 用户禁用
 
 <img src="img/pic11.png">
 
 <img src="img/pic12.png">
 
 <img src="img/pic13.png">
+
+### 5.7  员工资料-基本资料
+
++ 列表展示数据（含分页、按照名字搜索）
++ 持续更新...
+
+<img src="img/pic14.png">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## 6. 部分截图
