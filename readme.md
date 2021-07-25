@@ -179,10 +179,11 @@ npm install webpack webpack-cli -g
 ### 5.7  员工资料-基本资料
 
 + 列表展示数据（含分页、按照名字搜索）
-+ 持续更新...
++ 添加员工页面绘制
 
 <img src="img/pic14.png">
 
+<img src="img/pic15.png">
 
 
 
