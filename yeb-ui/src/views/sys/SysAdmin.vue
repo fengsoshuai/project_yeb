@@ -2,7 +2,7 @@
   <div>
     <!--搜索-->
     <div class="adminSearch">
-      <el-input v-model="keywords" size="small" prefix-icon="el-icon-search" placeholder="请输入管理员的名字..." class="adminSearchInput"></el-input>
+      <el-input v-model="keywords" @keydown.enter.native="doSearch" size="small" prefix-icon="el-icon-search" placeholder="请输入管理员的名字..." class="adminSearchInput"></el-input>
       <el-button size="small" type="primary" icon="el-icon-search" @click="doSearch">搜索</el-button>
     </div>
 
