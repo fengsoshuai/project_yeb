@@ -210,10 +210,9 @@
     <el-dialog
         title="添加员工"
         :visible.sync="addDialogVisible"
-        width="80%"
-        :before-close="handleCloseAddPanel">
+        width="80%">
       <div>
-        <el-form ref="addEmpForm" :model="emp">
+        <el-form ref="addEmpForm" :model="emp" :rules="empRules">
           <!--第一行：姓名、性别、出生日期、身份证号-->
           <el-row>
             <el-col :span="5">
@@ -259,7 +258,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="政治面貌：" prop="politicId" size="small">
-                <el-select clearable v-model="emp.politicId" filterable placeholder="请选择政治面貌..." @visible-change="showSelectPoliticId" size="small" style="width: 200px;">
+                <el-select clearable v-model="emp.politicId" filterable placeholder="请选择政治面貌..." size="small" style="width: 200px;">
                   <el-option
                       v-for="(politic, index) in this.politicIds"
                       :key="index"
@@ -271,7 +270,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="民族：" prop="nationId" size="small">
-                <el-select clearable v-model="emp.nationId" filterable placeholder="请选择民族..." @visible-change="showSelectNationId" size="small" style="width: 180px;">
+                <el-select clearable v-model="emp.nationId" filterable placeholder="请选择民族..."  size="small" style="width: 180px;">
                   <el-option
                       v-for="(nation, index) in this.nationIds"
                       :key="index"
@@ -302,7 +301,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="职位：" prop="posId" size="small">
-                <el-select clearable v-model="emp.posId" filterable placeholder="请选择职位..." @visible-change="showSelectPosId" size="small" style="width: 180px;">
+                <el-select clearable v-model="emp.posId" filterable placeholder="请选择职位..." size="small" style="width: 180px;">
                   <el-option
                       v-for="(position, index) in this.posIds"
                       :key="index"
@@ -314,7 +313,7 @@
             </el-col>
             <el-col :span="7">
               <el-form-item label="职称：" prop="jobLevelId" size="small">
-                <el-select clearable v-model="emp.jobLevelId" filterable placeholder="请选择职称..." @visible-change="showSelectJobLevelId" size="small" style="width: 228px;">
+                <el-select clearable v-model="emp.jobLevelId" filterable placeholder="请选择职称..." size="small" style="width: 228px;">
                   <el-option
                       v-for="(jobLevel, index) in this.jobLevelIds"
                       :key="index"
@@ -330,7 +329,20 @@
           <el-row>
             <el-col :span="5">
               <el-form-item label="所属部门：" prop="departmentId" size="small">
-                <el-input prefix-icon="el-icon-edit" size="small" placeholder="请输入部门..." clearable v-model="emp.departmentId"  style="width: 190px;"></el-input>
+                <el-popover
+                  placement="right"
+                  title="请选择部门"
+                  width="250"
+                  height="300"
+                  trigger="manual"
+                  content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
+                  v-model="selectDeptVisible">
+                  <el-tree  default-expand-all :data="deptTreeData" :props="deptTreeProps" @node-click="handleDeptNodeClick" style="width: 250px;">
+                  </el-tree>
+                  <div slot="reference" style="border:1px solid #dedede; width: 190px; height: 30px; display:inline-flex;border-radius: 5px;cursor:pointer;padding-left:8px;font-size:12px;box-sizing: border-box;" @click="showDeptView">
+                    <span v-text="selectedDept"></span>
+                  </div>
+                 </el-popover>
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -340,13 +352,13 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="工号：" prop="workId" size="small">
-                <el-input prefix-icon="el-icon-edit" size="small" placeholder="请输入工号..." clearable v-model="emp.workId" style="width: 180px;"></el-input>
+                <el-input disabled prefix-icon="el-icon-edit" size="small" v-model="emp.workId" style="width: 180px;"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="7">
               <el-form-item label="学历：" prop="tiptopDegree" size="small">
-                <el-select clearable v-model="emp.tiptopDegree" filterable placeholder="请选择学历..." @visible-change="" size="small" style="width: 228px;">
-
+                <el-select clearable v-model="emp.tiptopDegree" filterable size="small" style="width: 228px;">
+                  <el-option v-for="(tiptopDegree) in this.tiptopDegrees " :key="tiptopDegree" :label="tiptopDegree" :value="tiptopDegree"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -388,7 +400,7 @@
             </el-col>
           </el-row>
 
-
+        <!--第六行：合同起始日期、合同截止日期、聘用方式-->
           <el-row>
             <el-col :span="5">
               <el-form-item label="合同起始日期：" prop="beginContract" size="small">
@@ -422,11 +434,7 @@
             </el-col>
             <el-col :span="7"></el-col>
           </el-row>
-
-
-
         </el-form>
-
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button size="small" @click="clearAddDialog">取 消</el-button>
@@ -481,12 +489,58 @@ export default {
         wedlock: '',
         workAge: null,
         workId: '',
-        workState: ''
+        workState: '在职'
       },
       politicIds: [],
       nationIds: [],
       posIds: [],
-      jobLevelIds: []
+      jobLevelIds: [],
+      tiptopDegrees: ['博士', '硕士', '本科', '大专', '高中', '初中', '小学', '其他'],
+      selectDeptVisible: false,
+      deptTreeData: [],
+      deptTreeProps: {
+        children: 'children',
+        label: 'name'
+      },
+      // 选中的部门名
+      selectedDept: '请点击选择部门',
+      empRules: {
+        name: [
+          { required: true, message: '请输入员工姓名', trigger: 'blur' },
+          { min: 2, max: 16, message: '长度在 2 到 16 个字符', trigger: 'blur' }
+        ],
+        gender: [{ required: true, message: '请选择性别', trigger: 'change' }],
+        birthday: [ { required: true, message: '请选择出生日期', trigger: 'change' }],
+        idCard: [{ required: true, message: '请输入身份证号', trigger: 'blur' },
+          { pattern: /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}$)/, message: '身份证号不正确', trigger: 'blur' }
+        ],
+        wedlock: [{ required: true, message: '请选择婚姻状况', trigger: 'change' }],
+        nationId: [{ required: true, message: '请选择民族', trigger: 'change' }],
+        nativePlace: [{ required: true, message: '请输入籍贯', trigger: 'blur' }],
+        politicId: [{ required: true, message: '请选择政治面貌', trigger: 'change' }],
+        email: [{ required: true, message: '请输入邮箱', trigger: 'blur' },
+          { type: 'email', message: '邮箱格式不正确', trigger: 'blur' }
+        ],
+        phone: [{ required: true, message: '请输入手机号', trigger: 'blur' }],
+        address: [{ required: true, message: '请输入住址', trigger: 'blur' }],
+        departmentId: [{ required: true, message: '请选择部门', trigger: 'change' }],
+        jobLevelId: [{ required: true, message: '请选择职称', trigger: 'change' }],
+        posId: [{ required: true, message: '请选择职位', trigger: 'change' }],
+        engageForm: [{ required: true, message: '请选择聘用方式', trigger: 'change' }],
+        tiptopDegree: [{ required: true, message: '请选择学历', trigger: 'change' }],
+        specialty: [{ required: true, message: '请输入专业', trigger: 'blur' }],
+        school: [{ required: true, message: '请输入毕业学校', trigger: 'blur' }],
+        beginDate: [{ required: true, message: '请选择入职日期', trigger: 'change' }],
+        // workState: [{ required: true, message: '请选择在职状态', trigger: 'change' }],
+        workId: [{ required: true, message: '请输入工号', trigger: 'blur' }],
+        // contractTerm: [{ required: true, message: '请选择合同期限', trigger: 'change' }],
+        conversionTime: [{ required: true, message: '请选择转正日期', trigger: 'change' }],
+        notWorkDate: [{ required: true, message: '请选择离职日期', trigger: 'change' }],
+        beginContract: [{ required: true, message: '请选择合同起始日期', trigger: 'change' }],
+        endContract: [{ required: true, message: '请选择合同结束日期', trigger: 'change' }],
+        workAge: [{ required: true, message: '请输入工龄', trigger: 'blur' }]
+        //,idCard: [{ required: true, message: '请输入身份证号', trigger: 'blur' }]
+      }
     }
   },
 
@@ -540,29 +594,29 @@ export default {
     },
     handleNextClick(currentPage){
     },
-    handleCloseAddPanel(done) {
-      this.$confirm('确认关闭？')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {});
-      this.clearAddDialog();
+    // 获取工号
+    getMaxWorkId(){
+      this.getRequest('/employee/basic/maxWorkId').then(resp => {
+        if(resp.code === 200){
+          this.emp.workId = resp.object
+        }
+      })
     },
     // 打开添加面板
     showAddDialog(){
       this.addDialogVisible = true
       // 初始化数据
-      this.showSelectJobLevelId(true)
-      this.showSelectNationId(true)
-      this.showSelectPoliticId(true)
       this.showSelectPosId(true)
+      this.getMaxWorkId();
     },
+
     // 政治面貌
     showSelectPoliticId(isShow){
       // 显示政治面貌的下拉选择框
-      if(this.politicIds.length === 0 && isShow){
+      if(isShow){
         if(sessionStorage.getItem('politicIds')){
-          this.politicIds = sessionStorage.getItem('politicIds')
+          this.politicIds = JSON.parse(sessionStorage.getItem('politicIds'))
+          console.log(this.politicIds)
         } else {
           this.getRequest('/employee/basic/politicsStatus').then(resp => {
             if(resp.code === 200){
@@ -575,9 +629,9 @@ export default {
     },
     // 民族
     showSelectNationId(isShow){
-      if(this.nationIds.length === 0 && isShow){
+      if(isShow){
         if(sessionStorage.getItem('nationIds')){
-          this.nationIds = sessionStorage.getItem('nationIds')
+          this.nationIds = JSON.parse(sessionStorage.getItem('nationIds'))
         } else {
           this.getRequest('/employee/basic/nations').then(resp => {
             if (resp.code === 200) {
@@ -588,26 +642,21 @@ export default {
         }
       }
     },
-    // 职位
+    // 职位：经常发生变化，不存储在sessionStorage中
     showSelectPosId(isShow){
-      if(isShow && this.posIds.length === 0){
-        if(sessionStorage.getItem('posIds')){
-          this.posIds = sessionStorage.getItem('posIds')
-        } else {
+      if(isShow){
           this.getRequest('/employee/basic/positions').then(resp => {
             if(resp.code === 200){
               this.posIds = resp.object
-              sessionStorage.setItem('posIds', JSON.stringify(resp.object))
             }
           })
-        }
       }
     },
     // 职称
     showSelectJobLevelId(isShow){
-      if(isShow && this.jobLevelIds.length === 0){
+      if(isShow){
         if(sessionStorage.getItem('jobLevelIds')){
-          this.jobLevelIds = sessionStorage.getItem('jobLevelIds')
+          this.jobLevelIds = JSON.parse(sessionStorage.getItem('jobLevelIds'))
         } else {
           this.getRequest('/employee/basic/joblevels').then(resp => {
             if(resp.code === 200){
@@ -618,6 +667,20 @@ export default {
         }
       }
     },
+    // 初始化树形结构部门
+    initDeptTreeData(){
+      if(sessionStorage.getItem('deptTreeData')){
+        this.deptTreeData = JSON.parse(sessionStorage.getItem('deptTreeData'))
+      } else {
+        this.getRequest('/employee/basic/departments').then(resp => {
+          if(resp.code === 200){
+            this.deptTreeData = resp.object
+            sessionStorage.setItem('deptTreeData', JSON.stringify(resp.object))
+          }
+        })
+      }
+    },
+
     // 清空添加对话框的选择、填写的数据
     clearAddDialog(){
       this.emp.gender = '';
@@ -628,14 +691,43 @@ export default {
       this.emp.nationId = null;
       this.emp.politicId = null;
       this.addDialogVisible = false;
+      thuis.emp.departmentId = ''
+      this.selectedDept = '请点击选择部门'
+      this.selectDeptVisible = false;
     },
     // 添加员工
     addEmp(){
-      this.clearAddDialog();
+      this.$refs['addEmpForm'].validate((valid) => {
+        if(valid){
+          this.postRequest('/employee/basic/', this.emp).then(resp => {
+            if(resp.code === 200){
+              this.clearAddDialog()
+              this.initEmpList()
+            }
+          })
+        } else {
+          return false;
+        }
+      })
+    },
+    // 点击选择部门，树形展示
+    showDeptView(){
+      this.selectDeptVisible = !this.selectDeptVisible
+    },
+    // 点击部门树节点，选中
+    handleDeptNodeClick(data){
+      this.selectedDept = data.name
+      this.emp.departmentId = data.id
+      this.selectDeptVisible = false
     }
   },
   mounted() {
     this.initEmpList()
+    // 初始化添加时的数据
+    this.showSelectJobLevelId(true)
+    this.showSelectNationId(true)
+    this.showSelectPoliticId(true)
+    this.initDeptTreeData()
   }
 }
 </script>
