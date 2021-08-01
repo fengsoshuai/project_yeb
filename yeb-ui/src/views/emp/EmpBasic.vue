@@ -13,14 +13,33 @@
       </div>
       <!--导入、导出、添加员工-->
       <div class="buttonMenus">
-        <el-button type="success" size="small"><i class="fa fa-level-down" aria-hidden="true"></i>导入</el-button>
+        <el-popover
+            placement="left-end"
+            title="导入员工数据"
+            width="360"
+            @show="clearUploadContent"
+            trigger="click">
+          <el-upload
+              drag
+              :before-upload="beforeUpload"
+              :on-success="uploadSuccess"
+              :on-error="uploadError"
+              :show-file-list="false"
+              action="https://jsonplaceholder.typicode.com/posts/">
+            <i v-bind:class="uploadClass"></i>
+            <div class="el-upload__text" v-html="uploadText">将文件拖到此处，或<em>点击上传</em></div>
+            <div class="el-upload__tip" slot="tip">选择：员工数据的Excel文件</div>
+          </el-upload>
+          <el-button slot="reference" type="success" size="small"><i class="el-icon-upload2" aria-hidden="true"></i>导入</el-button>
+        </el-popover>
+
         <el-popover
             placement="top-start"
             title="导出员工数据功能"
             width="200"
             trigger="hover"
             content="当未选择员工时导出全部数据；当选择某些员工时则导出该部分员工数据">
-          <el-button slot="reference" type="success" size="small" @click="exportEmp"><i class="fa fa-level-up" aria-hidden="true" ></i>导出</el-button>
+          <el-button slot="reference" type="success" size="small" @click="exportEmp"><i class="el-icon-download" aria-hidden="true" ></i>导出</el-button>
         </el-popover>
         <el-button type="primary" icon="el-icon-plus" size="small" @click="showAddDialog">添加员工</el-button>
       </div>
@@ -550,7 +569,10 @@ export default {
         workAge: [{ required: true, message: '请输入工龄', trigger: 'blur' }]
         //,idCard: [{ required: true, message: '请输入身份证号', trigger: 'blur' }]
       },
-      selectedEmp: []
+      // 多选选中的员工
+      selectedEmp: [],
+      uploadClass: 'el-icon-upload',
+      uploadText: '将文件拖到此处，或<em>点击上传</em>'
     }
   },
 
@@ -559,6 +581,22 @@ export default {
       let ids = ''
       this.selectedEmp.forEach(emp => ids += 'ids=' + emp.id + '&')
       this.downLoadRequest('/employee/basic/export?' + ids)
+    },
+    beforeUpload(){
+      this.uploadClass = 'el-icon-loading'
+      this.uploadText = '正在上传...'
+    },
+    uploadSuccess(response, file, fileList){
+      this.uploadClass = 'el-icon-success'
+      this.uploadText = '上传成功！点击<em>继续上传</em>'
+    },
+    uploadError(err, file, fileList){
+      this.uploadClass = 'el-icon-error'
+      this.uploadText = '上传失败！点击<em>重新上传</em>'
+    },
+    clearUploadContent(){
+      this.uploadClass= 'el-icon-upload'
+      this.uploadText= '将文件拖到此处，或<em>点击上传</em>'
     },
     // 选中员工
     handleSelectEmps(selectedIndex){
