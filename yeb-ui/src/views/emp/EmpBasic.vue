@@ -178,13 +178,13 @@
         <el-table-column label="操作" width="200" fixed="right">
           <template slot-scope="scope">
             <el-tooltip class="item" effect="dark" content="编辑员工资料" placement="bottom">
-              <el-button size="mini" class="empOperateButton" icon="el-icon-edit">编辑</el-button>
+              <el-button size="mini" class="empOperateButton" icon="el-icon-edit" @click="showEditDialog(scope.row)">编辑</el-button>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="查看高级资料" placement="bottom">
               <el-button size="mini" class="empOperateButton" type="primary" icon="el-icon-view">查看</el-button>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="删除员工" placement="bottom">
-              <el-button size="mini" class="empOperateButton" type="danger" icon="el-icon-delete-solid">删除</el-button>
+              <el-button size="mini" class="empOperateButton" type="danger" icon="el-icon-delete-solid" @click="deleteEmp(scope.row)">删除</el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -208,7 +208,7 @@
 
     <!--添加员工对话框-->
     <el-dialog
-        title="添加员工"
+        :title="dialogTitle"
         :visible.sync="addDialogVisible"
         width="80%">
       <div>
@@ -458,6 +458,7 @@ export default {
         size: 15,
         currentPage: 1
       },
+      dialogTitle: '添加员工',
       addDialogVisible: false,
       // 添加员工基本信息
       emp: {
@@ -509,35 +510,35 @@ export default {
           { required: true, message: '请输入员工姓名', trigger: 'blur' },
           { min: 2, max: 16, message: '长度在 2 到 16 个字符', trigger: 'blur' }
         ],
-        gender: [{ required: true, message: '请选择性别', trigger: 'change' }],
-        birthday: [ { required: true, message: '请选择出生日期', trigger: 'change' }],
+        gender: [{ required: true, message: '请选择性别', trigger: 'blur' }],
+        birthday: [ { required: true, message: '请选择出生日期', trigger: 'blur' }],
         idCard: [{ required: true, message: '请输入身份证号', trigger: 'blur' },
           { pattern: /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}$)/, message: '身份证号不正确', trigger: 'blur' }
         ],
-        wedlock: [{ required: true, message: '请选择婚姻状况', trigger: 'change' }],
-        nationId: [{ required: true, message: '请选择民族', trigger: 'change' }],
+        wedlock: [{ required: true, message: '请选择婚姻状况', trigger: 'blur' }],
+        nationId: [{ required: true, message: '请选择民族', trigger: 'blur' }],
         nativePlace: [{ required: true, message: '请输入籍贯', trigger: 'blur' }],
-        politicId: [{ required: true, message: '请选择政治面貌', trigger: 'change' }],
+        politicId: [{ required: true, message: '请选择政治面貌', trigger: 'blur' }],
         email: [{ required: true, message: '请输入邮箱', trigger: 'blur' },
           { type: 'email', message: '邮箱格式不正确', trigger: 'blur' }
         ],
         phone: [{ required: true, message: '请输入手机号', trigger: 'blur' }],
         address: [{ required: true, message: '请输入住址', trigger: 'blur' }],
-        departmentId: [{ required: true, message: '请选择部门', trigger: 'change' }],
-        jobLevelId: [{ required: true, message: '请选择职称', trigger: 'change' }],
-        posId: [{ required: true, message: '请选择职位', trigger: 'change' }],
-        engageForm: [{ required: true, message: '请选择聘用方式', trigger: 'change' }],
-        tiptopDegree: [{ required: true, message: '请选择学历', trigger: 'change' }],
+        departmentId: [{ required: true, message: '请选择部门', trigger: 'blur' }],
+        jobLevelId: [{ required: true, message: '请选择职称', trigger: 'blur' }],
+        posId: [{ required: true, message: '请选择职位', trigger: 'blur' }],
+        engageForm: [{ required: true, message: '请选择聘用方式', trigger: 'blur' }],
+        tiptopDegree: [{ required: true, message: '请选择学历', trigger: 'blur' }],
         specialty: [{ required: true, message: '请输入专业', trigger: 'blur' }],
         school: [{ required: true, message: '请输入毕业学校', trigger: 'blur' }],
-        beginDate: [{ required: true, message: '请选择入职日期', trigger: 'change' }],
-        // workState: [{ required: true, message: '请选择在职状态', trigger: 'change' }],
+        beginDate: [{ required: true, message: '请选择入职日期', trigger: 'blur' }],
+        // workState: [{ required: true, message: '请选择在职状态', trigger: 'blur' }],
         workId: [{ required: true, message: '请输入工号', trigger: 'blur' }],
-        // contractTerm: [{ required: true, message: '请选择合同期限', trigger: 'change' }],
-        conversionTime: [{ required: true, message: '请选择转正日期', trigger: 'change' }],
-        notWorkDate: [{ required: true, message: '请选择离职日期', trigger: 'change' }],
-        beginContract: [{ required: true, message: '请选择合同起始日期', trigger: 'change' }],
-        endContract: [{ required: true, message: '请选择合同结束日期', trigger: 'change' }],
+        // contractTerm: [{ required: true, message: '请选择合同期限', trigger: 'blur' }],
+        conversionTime: [{ required: true, message: '请选择转正日期', trigger: 'blur' }],
+        notWorkDate: [{ required: true, message: '请选择离职日期', trigger: 'blur' }],
+        beginContract: [{ required: true, message: '请选择合同起始日期', trigger: 'blur' }],
+        endContract: [{ required: true, message: '请选择合同结束日期', trigger: 'blur' }],
         workAge: [{ required: true, message: '请输入工龄', trigger: 'blur' }]
         //,idCard: [{ required: true, message: '请输入身份证号', trigger: 'blur' }]
       }
@@ -604,7 +605,10 @@ export default {
     },
     // 打开添加面板
     showAddDialog(){
+      // 清除数据
+      this.clearAddDialog()
       this.addDialogVisible = true
+      this.dialogTitle = '添加员工'
       // 初始化数据
       this.showSelectPosId(true)
       this.getMaxWorkId();
@@ -683,30 +687,62 @@ export default {
 
     // 清空添加对话框的选择、填写的数据
     clearAddDialog(){
-      this.emp.gender = '';
-      this.emp.wedlock = '';
-      this.emp.engageForm = '';
-      this.emp.posId = null;
-      this.emp.jobLevelId = null;
-      this.emp.nationId = null;
-      this.emp.politicId = null;
+      this.emp = {
+        name: '',
+        address: '',
+        beginContract: '',
+        beginDate: '',
+        birthday: '',
+        contractTerm: null,
+        conversionTime: '',
+        createDate: '',
+        departmentId: null,
+        email: '',
+        endContract: '',
+        engageForm: '',
+        gender: '',
+        idCard: '',
+        jobLevelId: null,
+        nationId: null,
+        nativePlace: '',
+        notWorkDate: '',
+        phone: '',
+        politicId: null,
+        posId: null,
+        salaryId: null,
+        school: '',
+        specialty: '',
+        tiptopDegree: '',
+        wedlock: '',
+        workAge: null,
+        workId: '',
+        workState: '在职'
+      }
       this.addDialogVisible = false;
-      thuis.emp.departmentId = ''
       this.selectedDept = '请点击选择部门'
       this.selectDeptVisible = false;
     },
-    // 添加员工
+    // 添加员工和修改员工
     addEmp(){
       this.$refs['addEmpForm'].validate((valid) => {
         if(valid){
-          this.postRequest('/employee/basic/', this.emp).then(resp => {
-            if(resp.code === 200){
-              this.clearAddDialog()
-              this.initEmpList()
-            }
-          })
-        } else {
-          return false;
+          // 存在id为修改
+          if(this.emp.id){
+            this.putRequest('/employee/basic/', this.emp).then(resp => {
+              if(resp.code === 200){
+                this.clearAddDialog()
+                this.initEmpList()
+              }
+            })
+          } else {
+            // 添加员工
+            this.postRequest('/employee/basic/', this.emp).then(resp => {
+              if(resp.code === 200){
+                this.clearAddDialog()
+                this.initEmpList()
+              }
+            })
+          }
         }
       })
     },
@@ -719,6 +755,32 @@ export default {
       this.selectedDept = data.name
       this.emp.departmentId = data.id
       this.selectDeptVisible = false
+    },
+    // 显示编辑框
+    showEditDialog(data){
+      this.dialogTitle = '编辑员工';
+      this.emp = data
+      this.selectedDept = data.department.name
+      this.addDialogVisible = true;
+    },
+    // 删除员工信息
+    deleteEmp(data){
+      this.$confirm('此操作将永久删除员工【'+data.name+'】, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.deleteRequest('/employee/basic/' + data.id).then(resp => {
+          if(resp && resp.code === 200){
+            this.initEmpList()
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
     }
   },
   mounted() {
