@@ -14,7 +14,7 @@
       <!--导入、导出、添加员工-->
       <div>
         <el-button type="success" size="small"><i class="fa fa-level-down" aria-hidden="true"></i>导入</el-button>
-        <el-button type="success" size="small"><i class="fa fa-level-up" aria-hidden="true" @click="exportEmp"></i>导出</el-button>
+        <el-button type="success" size="small" @click="exportEmp"><i class="fa fa-level-up" aria-hidden="true" ></i>导出</el-button>
         <el-button type="primary" icon="el-icon-plus" size="small" @click="showAddDialog">添加员工</el-button>
       </div>
     </div>
@@ -34,6 +34,7 @@
           element-loading-spinner="el-icon-loading"
           element-loading-background="rgba(0, 0, 0, 0.8)"
           :header-cell-style="cellHeaderStyle"
+          @selection-change="handleSelectEmps"
           :cell-style="cellStyle">
         <el-table-column
             type="selection"
@@ -541,13 +542,20 @@ export default {
         endContract: [{ required: true, message: '请选择合同结束日期', trigger: 'blur' }],
         workAge: [{ required: true, message: '请输入工龄', trigger: 'blur' }]
         //,idCard: [{ required: true, message: '请输入身份证号', trigger: 'blur' }]
-      }
+      },
+      selectedEmp: []
     }
   },
 
   methods: {
     exportEmp(){
-      this.downLoadRequest('/employee/basic/export')
+      let ids = ''
+      this.selectedEmp.forEach(emp => ids += 'ids=' + emp.id + '&')
+      this.downLoadRequest('/employee/basic/export?' + ids)
+    },
+    // 选中员工
+    handleSelectEmps(selectedIndex){
+      this.selectedEmp = selectedIndex
     },
     searchEmp(){
       if(this.empName){
