@@ -12,9 +12,16 @@
         <el-button size="small" type="success" icon="el-icon-refresh" @click="refreshEmpList">刷新</el-button>
       </div>
       <!--导入、导出、添加员工-->
-      <div>
+      <div class="buttonMenus">
         <el-button type="success" size="small"><i class="fa fa-level-down" aria-hidden="true"></i>导入</el-button>
-        <el-button type="success" size="small" @click="exportEmp"><i class="fa fa-level-up" aria-hidden="true" ></i>导出</el-button>
+        <el-popover
+            placement="top-start"
+            title="导出员工数据功能"
+            width="200"
+            trigger="hover"
+            content="当未选择员工时导出全部数据；当选择某些员工时则导出该部分员工数据">
+          <el-button slot="reference" type="success" size="small" @click="exportEmp"><i class="fa fa-level-up" aria-hidden="true" ></i>导出</el-button>
+        </el-popover>
         <el-button type="primary" icon="el-icon-plus" size="small" @click="showAddDialog">添加员工</el-button>
       </div>
     </div>
@@ -824,5 +831,10 @@ export default {
 }
 .emp-table-container {
   height: 700px;
+}
+.buttonMenus {
+  display: flex;
+  justify-content: space-between;
+  width: 245px;
 }
 </style>
