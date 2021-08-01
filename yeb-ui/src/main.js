@@ -16,12 +16,15 @@ Vue.use(ElementUI)
 import {postRequest, getRequest, putRequest, deleteRequest} from "@/utils/api";
 import {post, get, put, del} from "@/utils/api";
 import {initMenu} from "@/utils/meuns";
+import {downLoadRequest} from "@/utils/download";
+
 import 'font-awesome/css/font-awesome.css'
 
 Vue.prototype.postRequest = postRequest
 Vue.prototype.getRequest = getRequest
 Vue.prototype.putRequest = putRequest
 Vue.prototype.deleteRequest = deleteRequest
+Vue.prototype.downLoadRequest = downLoadRequest
 
 Vue.prototype.post = post
 Vue.prototype.get = get

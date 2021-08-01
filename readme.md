@@ -178,8 +178,10 @@ npm install webpack webpack-cli -g
 
 ### 5.7  员工资料-基本资料
 
+在实现文件下载时，需要安装插件：`npm install js-file-download`
+
 + 列表展示数据（含分页、按照名字搜索）
-+ 添加员工页面绘制
++ 添加、修改员工页面绘制、功能实现
 
 <img src="img/pic14.png">
 

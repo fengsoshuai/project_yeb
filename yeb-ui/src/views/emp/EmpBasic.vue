@@ -14,7 +14,7 @@
       <!--导入、导出、添加员工-->
       <div>
         <el-button type="success" size="small"><i class="fa fa-level-down" aria-hidden="true"></i>导入</el-button>
-        <el-button type="success" size="small"><i class="fa fa-level-up" aria-hidden="true"></i>导出</el-button>
+        <el-button type="success" size="small"><i class="fa fa-level-up" aria-hidden="true" @click="exportEmp"></i>导出</el-button>
         <el-button type="primary" icon="el-icon-plus" size="small" @click="showAddDialog">添加员工</el-button>
       </div>
     </div>
@@ -546,6 +546,9 @@ export default {
   },
 
   methods: {
+    exportEmp(){
+      this.downLoadRequest('/employee/basic/export')
+    },
     searchEmp(){
       if(this.empName){
         this.initEmpList()
@@ -620,7 +623,6 @@ export default {
       if(isShow){
         if(sessionStorage.getItem('politicIds')){
           this.politicIds = JSON.parse(sessionStorage.getItem('politicIds'))
-          console.log(this.politicIds)
         } else {
           this.getRequest('/employee/basic/politicsStatus').then(resp => {
             if(resp.code === 200){
