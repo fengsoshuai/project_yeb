@@ -25,12 +25,14 @@
               :on-success="uploadSuccess"
               :on-error="uploadError"
               :show-file-list="false"
-              action="https://jsonplaceholder.typicode.com/posts/">
+              :disabled="importDisabled"
+              :headers="importHeaders"
+              action="/employee/basic/import">
             <i v-bind:class="uploadClass"></i>
             <div class="el-upload__text" v-html="uploadText">将文件拖到此处，或<em>点击上传</em></div>
             <div class="el-upload__tip" slot="tip">选择：员工数据的Excel文件</div>
           </el-upload>
-          <el-button slot="reference" type="success" size="small"><i class="el-icon-upload2" aria-hidden="true"></i>导入</el-button>
+          <el-button :disabled="importDisabled" slot="reference" type="success" size="small"><i class="el-icon-upload2" aria-hidden="true"></i>导入</el-button>
         </el-popover>
 
         <el-popover
@@ -572,7 +574,11 @@ export default {
       // 多选选中的员工
       selectedEmp: [],
       uploadClass: 'el-icon-upload',
-      uploadText: '将文件拖到此处，或<em>点击上传</em>'
+      uploadText: '将文件拖到此处，或<em>点击上传</em>',
+      importDisabled: false,
+      importHeaders: {
+        Authorization: window.sessionStorage.getItem('tokenStr')
+      }
     }
   },
 
@@ -583,16 +589,20 @@ export default {
       this.downLoadRequest('/employee/basic/export?' + ids)
     },
     beforeUpload(){
+      this.importDisabled = true
       this.uploadClass = 'el-icon-loading'
       this.uploadText = '正在上传...'
     },
     uploadSuccess(response, file, fileList){
       this.uploadClass = 'el-icon-success'
       this.uploadText = '上传成功！点击<em>继续上传</em>'
+      this.initEmpList()
+      this.importDisabled = false
     },
     uploadError(err, file, fileList){
       this.uploadClass = 'el-icon-error'
       this.uploadText = '上传失败！点击<em>重新上传</em>'
+      this.importDisabled = false
     },
     clearUploadContent(){
       this.uploadClass= 'el-icon-upload'
@@ -874,5 +884,23 @@ export default {
   display: flex;
   justify-content: space-between;
   width: 245px;
+}
+.el-upload-dragger .el-icon-loading{
+  font-size: 67px;
+  color: royalblue;
+  margin: 40px 0 16px;
+  line-height: 50px;
+}
+.el-upload-dragger .el-icon-success{
+  font-size: 67px;
+  color: limegreen;
+  margin: 40px 0 16px;
+  line-height: 50px;
+}
+.el-upload-dragger .el-icon-error{
+  font-size: 67px;
+  color: indianred;
+  margin: 40px 0 16px;
+  line-height: 50px;
 }
 </style>
