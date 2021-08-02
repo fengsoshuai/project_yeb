@@ -183,12 +183,16 @@ npm install webpack webpack-cli -g
 + 列表展示数据（含分页、按照名字搜索）
 + 添加、修改员工页面绘制、功能实现
 + 导出员工数据、多选员工导出
++ 员工数据导入功能
++ 员工数据高级搜索功能
 
 <img src="img/pic14.png">
 
 <img src="img/pic15.png">
 
+<img src="img/pic16.png">
 
+<img src="img/pic17.png">
 
 
 

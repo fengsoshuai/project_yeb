@@ -3,14 +3,15 @@
     <!--功能区-->
     <div class="functional-area">
       <div class="emp-search">
-        <el-input class="emp-search-input" clearable @clear="initEmpList" @keydown.enter.native="initEmpList" size="small" prefix-icon="el-icon-search" v-model="empName" placeholder="请输入员工名进行搜索..."></el-input>
-        <el-button class="emp-search-button" size="small" type="primary" icon="el-icon-search" @click="searchEmp">搜索</el-button>
-        <el-button type="primary" size="small">
-          <i class="fa fa-angle-double-down" aria-hidden="true"></i>
+        <el-input :disabled="showAdvancedSearchVisible" class="emp-search-input" clearable @clear="initEmpList(showAdvancedSearchVisible ? 'advancedSearch' : 'withName')" @keydown.enter.native="initEmpList(showAdvancedSearchVisible ? 'advancedSearch' : 'withName')" size="small" prefix-icon="el-icon-search" v-model="empName" placeholder="请输入员工名进行搜索..."></el-input>
+        <el-button :disabled="showAdvancedSearchVisible" class="emp-search-button" size="small" type="primary" icon="el-icon-search" @click="searchEmp">搜索</el-button>
+        <el-button type="primary" size="small" @click="showAdvancedSearchVisible = !showAdvancedSearchVisible">
+          <i :class="showAdvancedSearchVisible ? 'fa fa-angle-double-up' : 'fa fa-angle-double-down'" aria-hidden="true"></i>
           高级搜索
         </el-button>
         <el-button size="small" type="success" icon="el-icon-refresh" @click="refreshEmpList">刷新</el-button>
       </div>
+
       <!--导入、导出、添加员工-->
       <div class="buttonMenus">
         <el-popover
@@ -47,6 +48,106 @@
       </div>
     </div>
 
+    <!--高级搜索面板-->
+    <transition name="slide-fade">
+      <div v-show="showAdvancedSearchVisible" style="border: 1px solid #1989FA; font-size: 12px; border-radius: 5px;margin: 15px 0; padding: 5px; box-sizing: border-box;">
+        <el-row>
+          <el-col :span="4">
+            政治面貌：
+              <el-select clearable v-model="searchValue.politicId" filterable placeholder="请选择政治面貌..." size="mini" style="width: 150px;">
+                <el-option
+                    v-for="(politic, index) in this.politicIds"
+                    :key="index"
+                    :label="politic.name"
+                    :value="politic.id">
+                </el-option>
+              </el-select>
+          </el-col>
+
+          <el-col :span="4">
+            民族：
+            <el-select clearable v-model="searchValue.nationId" filterable placeholder="请选择民族..."  size="mini" style="width: 150px;">
+              <el-option
+                  v-for="(nation, index) in this.nationIds"
+                  :key="index"
+                  :label="nation.name"
+                  :value="nation.id">
+              </el-option>
+            </el-select>
+          </el-col>
+
+          <el-col :span="4">
+            职位：
+            <el-select clearable v-model="searchValue.posId" filterable placeholder="请选择职位..." size="mini" style="width: 150px;">
+              <el-option
+                  v-for="(position, index) in this.posIds"
+                  :key="index"
+                  :label="position.name"
+                  :value="position.id">
+              </el-option>
+            </el-select>
+          </el-col>
+          <el-col :span="4">
+            职称：
+            <el-select clearable v-model="searchValue.jobLevelId" filterable placeholder="请选择职称..." size="mini" style="width: 150px;">
+              <el-option
+                  v-for="(jobLevel, index) in this.jobLevelIds"
+                  :key="index"
+                  :label="jobLevel.name"
+                  :value="jobLevel.id">
+              </el-option>
+            </el-select>
+          </el-col>
+
+          <el-col :span="4">
+            聘用形式：
+            <el-radio-group v-model="searchValue.engageForm" size="mini">
+              <el-radio-button label="劳动合同">劳动合同</el-radio-button>
+              <el-radio-button label="劳务合同">劳务合同</el-radio-button>
+            </el-radio-group>
+          </el-col>
+
+          <el-col :span="4" style="display: inline-flex; align-items: center;">
+            所属部门：
+            <el-popover
+                placement="left"
+                title="请选择部门"
+                width="250"
+                height="300"
+                trigger="manual"
+                content=""
+                v-model="selectAdvanceDeptVisible">
+              <el-tree  default-expand-all :data="deptTreeData" :props="deptTreeProps" @node-click="handleDeptNodeSearchClick" style="width: 250px;">
+              </el-tree>
+              <div slot="reference" style="border:1px solid #dedede; width: 150px; height: 27px; display:inline-flex; align-items: center;border-radius: 5px;cursor:pointer;padding-left:8px;font-size:12px;box-sizing: border-box;" @click="selectAdvanceDeptVisible = !selectAdvanceDeptVisible">
+                <span v-text="selectedSearchDept"></span>
+              </div>
+            </el-popover>
+          </el-col>
+        </el-row>
+
+        <el-row style="margin-top: 10px;">
+          <el-col :span="10">
+            入职日期：
+            <el-date-picker
+                v-model="searchValue.beginDateScope"
+                size="mini"
+                type="daterange"
+                unlink-panels
+                range-separator="至"
+                value-format="yyyy-MM-dd"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期">
+            </el-date-picker>
+          </el-col>
+
+          <el-col :span="4" :offset="10">
+            <el-button icon="el-icon-close" type="warning" size="mini" @click="cancelAdvancedSearch">取消</el-button>
+            <el-button icon="el-icon-search" type="primary" size="mini" @click="doAdvancedSearch">搜索</el-button>
+          </el-col>
+        </el-row>
+      </div>
+    </transition>
     <!--员工列表-->
     <div class="emp-table-container">
       <el-table
@@ -56,7 +157,7 @@
           size="small"
           style="width: 100%; margin-bottom: 8px;"
           hide-on-single-page
-          max-height="675"
+          max-height="650"
           v-loading="loading"
           element-loading-text="拼命加载中"
           element-loading-spinner="el-icon-loading"
@@ -204,14 +305,14 @@
             label="联系地址"
             width="320">
         </el-table-column>
-        <el-table-column label="操作" width="200" fixed="right">
+        <el-table-column label="操作" width="150" fixed="right">
           <template slot-scope="scope">
             <el-tooltip class="item" effect="dark" content="编辑员工资料" placement="bottom">
               <el-button size="mini" class="empOperateButton" icon="el-icon-edit" @click="showEditDialog(scope.row)">编辑</el-button>
             </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="查看高级资料" placement="bottom">
+            <!--<el-tooltip class="item" effect="dark" content="查看高级资料" placement="bottom">
               <el-button size="mini" class="empOperateButton" type="primary" icon="el-icon-view">查看</el-button>
-            </el-tooltip>
+            </el-tooltip>-->
             <el-tooltip class="item" effect="dark" content="删除员工" placement="bottom">
               <el-button size="mini" class="empOperateButton" type="danger" icon="el-icon-delete-solid" @click="deleteEmp(scope.row)">删除</el-button>
             </el-tooltip>
@@ -228,7 +329,7 @@
           @prev-click="handlePrevClick"
           @next-click="handleNextClick"
           :current-page="this.pageArguments.currentPage"
-          :page-sizes="[15, 50, 100, 200]"
+          :page-sizes="[10, 50, 100, 200]"
           :page-size="this.pageArguments.size"
           layout="total, sizes, prev, pager, next, jumper"
           :total="this.pageArguments.totalSize">
@@ -364,7 +465,7 @@
                   width="250"
                   height="300"
                   trigger="manual"
-                  content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
+                  content=""
                   v-model="selectDeptVisible">
                   <el-tree  default-expand-all :data="deptTreeData" :props="deptTreeProps" @node-click="handleDeptNodeClick" style="width: 250px;">
                   </el-tree>
@@ -484,7 +585,7 @@ export default {
       loading: true,
       pageArguments: {
         totalSize: 0,
-        size: 15,
+        size: 10,
         currentPage: 1
       },
       dialogTitle: '添加员工',
@@ -578,7 +679,22 @@ export default {
       importDisabled: false,
       importHeaders: {
         Authorization: window.sessionStorage.getItem('tokenStr')
+      },
+
+      // 高级搜索
+      showAdvancedSearchVisible: false,
+      selectAdvanceDeptVisible: false,
+      selectedSearchDept: '',
+      searchValue: {
+        politicId: null,
+        nationId: null,
+        posId: null,
+        jobLevelId: null,
+        engageForm: null,
+        departmentId: null,
+        beginDateScope: null
       }
+
     }
   },
 
@@ -596,7 +712,7 @@ export default {
     uploadSuccess(response, file, fileList){
       this.uploadClass = 'el-icon-success'
       this.uploadText = '上传成功！点击<em>继续上传</em>'
-      this.initEmpList()
+      this.initEmpList(this.showAdvancedSearchVisible ? 'advancedSearch' : 'withName')
       this.importDisabled = false
     },
     uploadError(err, file, fileList){
@@ -614,7 +730,7 @@ export default {
     },
     searchEmp(){
       if(this.empName){
-        this.initEmpList()
+        this.initEmpList(this.showAdvancedSearchVisible ? 'advancedSearch' : 'withName')
       } else {
         this.$message.warning("请输入员工名进行搜索！");
       }
@@ -622,17 +738,43 @@ export default {
     refreshEmpList(){
       this.empName = ''
       this.pageArguments.currentPage = 1
-      this.initEmpList()
+      this.initEmpList(this.showAdvancedSearchVisible ? 'advancedSearch' : 'withName')
     },
-    initEmpList(){
+    // 初始化员工数据
+    initEmpList(searchType){
       this.loading = true
       let pageParam = 'currentPage=' + this.pageArguments.currentPage + '&size=' + this.pageArguments.size;
-      // 员工名搜索
-      let empParam = '';
-      if(this.empName){
-        empParam += '&name=' + this.empName
-        pageParam += empParam
+      // 高级搜索
+      if(searchType && searchType === 'advancedSearch'){
+        if(this.searchValue.politicId){
+          pageParam += '&politicId=' + this.searchValue.politicId
+        }
+        if(this.searchValue.nationId){
+          pageParam += '&nationId=' + this.searchValue.nationId
+        }
+        if(this.searchValue.posId){
+          pageParam += '&posId=' + this.searchValue.posId
+        }
+        if(this.searchValue.jobLevelId){
+          pageParam += '&jobLevelId=' + this.searchValue.jobLevelId
+        }
+        if(this.searchValue.departmentId){
+          pageParam += '&departmentId=' + this.searchValue.departmentId
+        }
+        if(this.searchValue.engageForm){
+          pageParam += '&engageForm=' + this.searchValue.engageForm
+        }
+        if(this.searchValue.beginDateScope){
+          pageParam += '&beginDateScope=' + this.searchValue.beginDateScope
+        }
+      } else {
+        // 员工名搜索
+        if(this.empName){
+          pageParam += '&name=' + this.empName
+        }
       }
+
+
       this.getRequest('/employee/basic/?' + pageParam).then(resp => {
         if(resp.code === 200){
           this.empList = resp.data
@@ -651,11 +793,11 @@ export default {
     },
     handleSizeChange(pageSize){
       this.pageArguments.size = pageSize
-      this.initEmpList()
+      this.initEmpList(this.showAdvancedSearchVisible ? 'advancedSearch' : 'withName')
     },
     handleCurrentChange(currentPage){
       this.pageArguments.currentPage = currentPage
-      this.initEmpList()
+      this.initEmpList(this.showAdvancedSearchVisible ? 'advancedSearch' : 'withName')
     },
     handlePrevClick(currentPage){
     },
@@ -796,7 +938,7 @@ export default {
             this.putRequest('/employee/basic/', this.emp).then(resp => {
               if(resp.code === 200){
                 this.clearAddDialog()
-                this.initEmpList()
+                this.initEmpList(this.showAdvancedSearchVisible ? 'advancedSearch' : 'withName')
               }
             })
           } else {
@@ -804,7 +946,7 @@ export default {
             this.postRequest('/employee/basic/', this.emp).then(resp => {
               if(resp.code === 200){
                 this.clearAddDialog()
-                this.initEmpList()
+                this.initEmpList(this.showAdvancedSearchVisible ? 'advancedSearch' : 'withName')
               }
             })
           }
@@ -820,6 +962,31 @@ export default {
       this.selectedDept = data.name
       this.emp.departmentId = data.id
       this.selectDeptVisible = false
+    },
+    // 高级搜索中的选择部门
+    handleDeptNodeSearchClick(data){
+      this.searchValue.departmentId = data.id
+      this.selectedSearchDept = data.name
+      this.selectAdvanceDeptVisible = false
+    },
+    // 取消高级搜素
+    cancelAdvancedSearch(){
+      this.showAdvancedSearchVisible = false
+      this.selectAdvanceDeptVisible = false
+      this.selectedSearchDept = ''
+      this.searchValue = {
+        politicId: null,
+        nationId: null,
+        posId: null,
+        jobLevelId: null,
+        engageForm: null,
+        departmentId: null,
+        beginDateScope: null
+      }
+    },
+    // 执行高级搜索
+    doAdvancedSearch(){
+      this.initEmpList('advancedSearch')
     },
     // 显示编辑框
     showEditDialog(data){
@@ -837,7 +1004,7 @@ export default {
       }).then(() => {
         this.deleteRequest('/employee/basic/' + data.id).then(resp => {
           if(resp && resp.code === 200){
-            this.initEmpList()
+            this.initEmpList(this.showAdvancedSearchVisible ? 'advancedSearch' : 'withName')
           }
         })
       }).catch(() => {
@@ -849,12 +1016,14 @@ export default {
     }
   },
   mounted() {
-    this.initEmpList()
+    this.initEmpList(this.showAdvancedSearchVisible ? 'advancedSearch' : 'withName')
     // 初始化添加时的数据
     this.showSelectJobLevelId(true)
     this.showSelectNationId(true)
     this.showSelectPoliticId(true)
     this.initDeptTreeData()
+    // 职位
+    this.showSelectPosId(true)
   }
 }
 </script>
@@ -878,7 +1047,7 @@ export default {
   padding: 2px;
 }
 .emp-table-container {
-  height: 700px;
+  height: 670px;
 }
 .buttonMenus {
   display: flex;
@@ -902,5 +1071,19 @@ export default {
   color: indianred;
   margin: 40px 0 16px;
   line-height: 50px;
+}
+
+/* 可以设置不同的进入和离开动画 */
+/* 设置持续时间和动画函数 */
+.slide-fade-enter-active {
+  transition: all .8s ease;
+}
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+  /* .slide-fade-leave-active for below version 2.1.8 */ {
+  transform: translateY(10px);
+  opacity: 0;
 }
 </style>
