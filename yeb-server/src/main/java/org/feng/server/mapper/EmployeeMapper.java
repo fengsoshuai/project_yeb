@@ -35,4 +35,12 @@ public interface EmployeeMapper extends BaseMapper<Employee> {
      * @return 员工列表
      */
     List<Employee> getEmployeeForExcel(@Param("ids") Integer[] ids);
+
+
+    /**
+     * 获取所有员工的账套
+     * @param employeePage 分页数据
+     * @return {@link Employee} bean
+     */
+    IPage<Employee> getEmpWithSalary(Page<Employee> employeePage);
 }

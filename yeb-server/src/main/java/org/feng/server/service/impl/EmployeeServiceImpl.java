@@ -67,4 +67,11 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
     public List<Employee> getEmployeeForExcel(Integer[] ids) {
         return employeeMapper.getEmployeeForExcel(ids);
     }
+
+    @Override
+    public ResponsePageBean getEmpWithSalary(Integer currentPage, Integer size) {
+        Page<Employee> employeePage = new Page<>(currentPage, size);
+        IPage<Employee> page = employeeMapper.getEmpWithSalary(employeePage);
+        return ResponsePageBean.ok(page.getTotal(), page.getRecords());
+    }
 }

@@ -179,4 +179,8 @@ public class Employee implements Serializable {
     @ApiModelProperty(value = "职位")
     @TableField(exist = false)
     private Position position;
+
+    @ApiModelProperty(value = "工资账套")
+    @TableField(exist = false)
+    private Salary salary;
 }

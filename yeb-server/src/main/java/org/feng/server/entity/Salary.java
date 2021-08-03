@@ -3,11 +3,13 @@ package org.feng.server.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.feng.server.config.annotation.BeanHasCreateDate;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -20,11 +22,12 @@ import java.time.LocalDateTime;
  * @author FengJinSong
  * @since 2021-06-16
  */
+@BeanHasCreateDate
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("t_salary")
-@ApiModel(value="Salary对象", description="")
+@ApiModel(value="Salary对象")
 public class Salary implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -55,6 +58,7 @@ public class Salary implements Serializable {
     private Float pensionPer;
 
     @ApiModelProperty(value = "启用时间")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Shanghai")
     private LocalDateTime createDate;
 
     @ApiModelProperty(value = "医疗基数")
@@ -71,6 +75,4 @@ public class Salary implements Serializable {
 
     @ApiModelProperty(value = "名称")
     private String name;
-
-
 }

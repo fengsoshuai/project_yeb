@@ -63,6 +63,30 @@
         </association>
     </resultMap>
 
+    <resultMap id="EmployeeWithSalary" type="org.feng.server.entity.Employee" extends="BaseResultMap">
+        <association property="salary" javaType="org.feng.server.entity.Salary">
+            <id column="sid" property="id"/>
+            <result column="sname" property="name"/>
+            <result column="sbasicSalary" property="basicSalary" />
+            <result column="sbonus" property="bonus" />
+            <result column="slunchSalary" property="lunchSalary" />
+            <result column="strafficSalary" property="trafficSalary" />
+            <result column="sallSalary" property="allSalary" />
+            <result column="spensionBase" property="pensionBase" />
+            <result column="spensionPer" property="pensionPer" />
+            <result column="smedicalBase" property="medicalBase" />
+            <result column="smedicalPer" property="medicalPer" />
+            <result column="saccumulationFundBase" property="accumulationFundBase" />
+            <result column="saccumulationFundPer" property="accumulationFundPer" />
+        </association>
+        <association property="department" javaType="org.feng.server.entity.Department">
+            <id column="did" property="id"/>
+            <result column="dname" property="name"/>
+        </association>
+    </resultMap>
+    
+    
+    
     <!--获取所有员工(分页)-->
     <select id="getEmployeeByPage" resultMap="EmployeeInfo">
         SELECT
@@ -151,5 +175,30 @@
              </foreach>
         </if>
         ORDER BY e.id
+    </select>
+
+
+    <select id="getEmpWithSalary" resultMap="EmployeeWithSalary">
+        select
+        e.*,
+        d.name as dname,
+        s.id as sid,
+        s.name as sname,
+        s.basicSalary as sbasicSalary,
+        s.bonus as sbonus,
+        s.lunchSalary as slunchSalary,
+        s.trafficSalary as strafficSalary,
+        s.allSalary as sallSalary,
+        s.pensionBase as spensionBase,
+        s.pensionPer as spensionPer,
+        s.medicalBase as smedicalBase,
+        s.medicalPer as smedicalPer,
+        s.accumulationFundBase as saccumulationFundBase,
+        s.accumulationFundPer as saccumulationFundPer
+        from
+            t_employee e
+        left join t_salary s on e.salaryId = s.id
+        left join t_department d on e.departmentId = d.id
+        order by e.id
     </select>
 </mapper>

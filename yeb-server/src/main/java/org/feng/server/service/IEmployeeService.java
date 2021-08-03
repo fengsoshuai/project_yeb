@@ -48,4 +48,12 @@ public interface IEmployeeService extends IService<Employee> {
      * @return 员工列表
      */
     List<Employee> getEmployeeForExcel(Integer[] ids);
+
+    /**
+     * 获取所有员工的账套
+     * @param currentPage 当前页
+     * @param size 每页大小
+     * @return {@link Employee} bean
+     */
+    ResponsePageBean getEmpWithSalary(Integer currentPage, Integer size);
 }
