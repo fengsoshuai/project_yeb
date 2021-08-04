@@ -28,7 +28,8 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
-    @Value("{tokenHead}")
+    @Value("${jwt.tokenHead}")
+
     private String tokenHead;
 
     @Autowired
@@ -75,6 +76,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                             if(jwtTokenUtil.validateToken(authToken, userDetails)){
                                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+                                accessor.setUser(usernamePasswordAuthenticationToken);
                             }
                         }
                     }
