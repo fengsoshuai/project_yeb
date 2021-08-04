@@ -1,6 +1,5 @@
 package org.feng.server.service.impl;
 
-import cn.hutool.captcha.generator.MathGenerator;
 import cn.hutool.core.util.ArrayUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -10,6 +9,7 @@ import org.feng.server.entity.Admin;
 import org.feng.server.entity.AdminRole;
 import org.feng.server.entity.ResponseBean;
 import org.feng.server.entity.Role;
+import org.feng.server.entity.vo.AdminPwdVO;
 import org.feng.server.mapper.AdminMapper;
 import org.feng.server.mapper.AdminRoleMapper;
 import org.feng.server.mapper.RoleMapper;
@@ -76,7 +76,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         }
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         // 用户名或密码校验不通过
-        if(userDetails == null || passwordEncoder.matches(password, userDetails.getPassword())){
+        if(userDetails == null || !passwordEncoder.matches(password, userDetails.getPassword())){
             return ResponseBean.error("用户名或密码不正确");
         }
         // 账号被禁用
@@ -126,5 +126,25 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
             return ResponseBean.success(Consts.UPDATE_SUCCESS);
         }
         return ResponseBean.error(Consts.UPDATE_FAILED);
+    }
+
+
+    @Override
+    public ResponseBean updateAdminPassword(AdminPwdVO adminPwdVO) {
+        // 获取对象
+        Admin admin = adminMapper.selectById(adminPwdVO.getAdminId());
+        if(admin == null){
+            return ResponseBean.error("该用户不存在！");
+        }
+
+        // 校验输入的旧密码是否正确
+        if(passwordEncoder.matches(adminPwdVO.getOldPass(), admin.getPassword())){
+            admin.setPassword(passwordEncoder.encode(adminPwdVO.getPass()));
+            int rows = adminMapper.updateById(admin);
+            if(rows == 1){
+                return ResponseBean.success(Consts.UPDATE_SUCCESS);
+            }
+        }
+        return ResponseBean.error(Consts.UPDATE_FAILED + " 请检查原密码！");
     }
 }

@@ -5,6 +5,7 @@ import org.feng.server.entity.Admin;
 import org.feng.server.entity.Menu;
 import org.feng.server.entity.ResponseBean;
 import org.feng.server.entity.Role;
+import org.feng.server.entity.vo.AdminPwdVO;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -66,4 +67,11 @@ public interface IAdminService extends IService<Admin> {
      * @return 响应结果
      */
     ResponseBean updateAdminRole(Integer adminId, Integer[] rids);
+
+    /**
+     * 修改管理员密码
+     * @param adminPwdVO 管理员密码实体vo
+     * @return 响应结果
+     */
+    ResponseBean updateAdminPassword(AdminPwdVO adminPwdVO);
 }
