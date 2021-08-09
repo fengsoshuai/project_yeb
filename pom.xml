@@ -6,6 +6,7 @@
         <module>yeb-server</module>
         <module>yeb-generator</module>
         <module>yeb-util</module>
+        <module>yeb-email</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

@@ -218,3 +218,67 @@ npm install webpack webpack-cli -g
 
 <img src='img/pic3.png'/>
 
+
+
+
+
+## 7. Rabbit MQ
+
+### 7.1 安装
+
+```shell
+# 安装 erlang 依赖
+yum -y install esl-erlang_23.0.2-1_centos_7_amd64.rpm
+
+# 安装
+yum -y install rabbitmq-server-3.8.5-1.el7.noarch.rpm
+
+# 启动
+systemctl start rabbitmq-server.service
+# 查看状态：以下为启动状态截图 active running 表示正在运行
+systemctl status rabbitmq-server.service
+```
+
+<img src='img/pic18.png'/>
+
+
+
+```shell
+# 安装UI插件，先查看插件列表
+rabbitmq-plugins list
+# 安装
+rabbitmq-plugins enable rabbitmq_management
+
+# 修改配置
+cd /etc/rabbitmq
+vim rabbitmq.config
+[{rabbit, [{loopback_users, []}]}].
+
+# 重启
+systemctl restart rabbitmq-server.service
+```
+
+登陆：使用默认端口  15672，用户名和密码默认为  guest
+
+http://39.107.102.32:15672/
+
+### 7.2 入门案例
+
+参考：https://www.rabbitmq.com/getstarted.html
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

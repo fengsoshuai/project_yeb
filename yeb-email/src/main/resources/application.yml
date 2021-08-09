@@ -1,0 +1,22 @@
+sever:
+  port: 8082
+
+spring:
+  # 邮件配置
+  mail:
+    host: smtp.163.com
+    # 协议
+    protocol: smtp
+    default-encoding: utf-8
+    # 授权码
+    password: EVRWOATQYSHJEVWV
+    username: fengsoshuai@163.com
+    port: 25
+
+  # rabbitmq 基本信息
+  rabbitmq:
+    username: yeb
+    password: yeb
+    host: 39.107.102.32
+    port: 5672
+

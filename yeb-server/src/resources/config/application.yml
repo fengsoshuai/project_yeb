@@ -6,9 +6,9 @@ spring:
   # 数据源配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/yeb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
-    username: root
-    password: root
+    url: jdbc:mysql://39.107.102.32:3306/yeb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: mysql
+    password: mysql
     hikari:
       # 连接池名
       pool-name: DateHikariCP
@@ -34,7 +34,7 @@ spring:
 
   redis:
    timeout: 10000ms
-   host: localhost
+   host: 39.107.102.32
    port: 6379
    database: 0
    password: root
