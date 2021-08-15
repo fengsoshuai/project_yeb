@@ -36,7 +36,7 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-thymeleaf</artifactId>
     </dependency>
-    <!--server 依赖-->
+
     <dependency>
       <groupId>org.feng</groupId>
       <artifactId>yeb-server</artifactId>
@@ -44,4 +44,17 @@
     </dependency>
   </dependencies>
 
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>2.3.7.RELEASE</version>
+        <configuration>
+          <mainClass>org.feng.YebEmailApplication</mainClass>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

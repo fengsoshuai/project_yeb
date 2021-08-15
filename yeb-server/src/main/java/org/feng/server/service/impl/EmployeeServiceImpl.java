@@ -11,6 +11,7 @@ import org.feng.server.entity.ResponsePageBean;
 import org.feng.server.mapper.EmployeeMapper;
 import org.feng.server.service.IEmployeeService;
 import org.feng.util.DecimalFormatUtil;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,9 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
 
     @Autowired
     private EmployeeMapper employeeMapper;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @Override
     public ResponsePageBean getEmployeeByPage(Integer currentPage, Integer size, Employee employee, LocalDate[] beginDateScope) {
@@ -58,6 +62,8 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         employee.setContractTerm(Double.valueOf(DecimalFormatUtil.format(days / 365.00)));
 
         if(1 == employeeMapper.insert(employee)){
+            Employee emp = employeeMapper.selectOne(new QueryWrapper<Employee>().eq("name", employee.getName()).orderByDesc("createDate"));
+            rabbitTemplate.convertAndSend("mail.welcome", emp);
             return ResponseBean.success(Consts.ADD_SUCCESS);
         }
         return ResponseBean.error(Consts.ADD_FAILED);

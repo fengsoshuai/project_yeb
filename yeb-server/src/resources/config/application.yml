@@ -50,6 +50,17 @@ spring:
     auto: true
     proxy-target-class: true
 
+  # rabbitmq 基本信息
+  rabbitmq:
+    username: yeb
+    password: yeb
+    host: 39.107.102.32
+    port: 5672
+
+
+
+
+
 # mybatis-plus配置
 mybatis-plus:
   # 配置Mapper映射文件
