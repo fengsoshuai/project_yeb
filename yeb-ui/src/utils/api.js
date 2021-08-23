@@ -4,6 +4,7 @@
 import axios from "axios";
 import {Message} from "element-ui";
 import router from "@/router";
+const baseUrl = "http://gnefjs.com/yeb";
 
 /**
  * 拦截请求，设置请求头
@@ -59,7 +60,7 @@ axios.interceptors.response.use(success => {
  * @returns 响应结果
  */
 export const postRequest = (url, params) => {
-    return axios.post(url, params)
+    return axios.post(baseUrl + url, params)
 }
 
 
@@ -71,7 +72,7 @@ export const postRequest = (url, params) => {
  */
 export function post(url, params = {}) {
     return new Promise((resolve, reject) => {
-        axios.post(url, params)
+        axios.post(baseUrl + url, params)
             .then(response => {
                 resolve(response.data)
             }).catch(err => {
@@ -87,7 +88,7 @@ export function post(url, params = {}) {
  * @returns 响应结果
  */
 export const putRequest = (url, params) => {
-    return axios.put(url, params)
+    return axios.put(baseUrl + url, params)
 }
 
 /**
@@ -98,7 +99,7 @@ export const putRequest = (url, params) => {
  */
 export function put(url, params = {}) {
     return new Promise((resolve, reject) => {
-        axios.put(url, params)
+        axios.put(baseUrl + url, params)
             .then(response => {
                 resolve(response.data)
             }).catch(err => {
@@ -113,7 +114,7 @@ export function put(url, params = {}) {
  * @returns 响应结果
  */
 export const getRequest = (url, params) => {
-    return axios.get(url, params)
+    return axios.get(baseUrl + url, params)
 }
 
 /**
@@ -124,7 +125,7 @@ export const getRequest = (url, params) => {
  */
 export function get(url, params = {}) {
     return new Promise((resolve, reject) => {
-        axios.get(url, params)
+        axios.get(baseUrl + url, params)
             .then(response => {
                 resolve(response.data)
             }).catch(err => {
@@ -141,7 +142,7 @@ export function get(url, params = {}) {
  * @returns 响应结果
  */
 export const deleteRequest = (url, params) => {
-    return axios.delete(url, params)
+    return axios.delete(baseUrl + url, params)
 }
 /**
  * axios Promise封装发送 delete 请求
@@ -151,7 +152,7 @@ export const deleteRequest = (url, params) => {
  */
 export function del(url, params = {}) {
     return new Promise((resolve, reject) => {
-        axios.delete(url, params)
+        axios.delete(baseUrl + url, params)
             .then(response => {
                 resolve(response.data)
             }).catch(err => {

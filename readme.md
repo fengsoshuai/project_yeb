@@ -88,6 +88,17 @@ end if;
 end
 ```
 
+### 3.2 运行
+
+打成jar包，外部指定配置文件
+
+nohup java -jar yeb-email-0.0.1-SNAPSHOT.jar > yeb_mail_catalina.out  2>&1 &
+
+nohup java -jar yeb-server-0.0.1-SNAPSHOT.jar   --spring.config.location=./application.yml > yeb_server_catalina.out  2>&1 &
+
+
+
+
 
 ## 4. yeb-util 模块
 
@@ -266,7 +277,7 @@ http://39.107.102.32:15672/
 
 参考：https://www.rabbitmq.com/getstarted.html
 
-### 7.3 邮件服务
+### 7.3 邮件服务 yeb-mail模块
 
 新建模块 yeb-mail 
 
@@ -274,13 +285,96 @@ http://39.107.102.32:15672/
 
 nohup java -jar yeb-email-0.0.1-SNAPSHOT.jar > yeb_mail_catalina.out  2>&1 &
 
+## 8. nginx 
 
+### 8.1 安装
 
+**在linux下安装nginx，首先需要安装 gcc-c++编译器。然后安装nginx依赖的pcre和zlib包。最后安装nginx即可。**
 
+1.先安装gcc-c++编译器
 
+```java
+yum install gcc-c++
+yum install -y openssl openssl-devel
+```
 
+2.再安装pcre包
 
+```java
+yum install -y pcre pcre-devel
+```
 
+3.再安装zlib包
+
+```java
+yum install -y zlib zlib-devel
+```
+
+> **下面进行nginx的安装**,在linux中你要安装的位置进行以下操作
+
+1.在/usr/local/下创建文件nginx文件
+
+```java
+mkdir /usr/local/nginx
+```
+
+2.在网上下nginx包上传至Linux（https://nginx.org/download/），也可以直接下载
+
+```java
+wget https://nginx.org/download/nginx-1.19.9.tar.gz
+```
+
+3.解压并进入nginx目录
+
+```java
+tar -zxvf nginx-1.19.9.tar.gz
+cd nginx-1.19.9
+```
+
+4.使用nginx默认配置
+
+```java
+./configure
+```
+
+5.编译安装
+
+```java
+make
+make install
+```
+
+6.查找安装路径
+
+```java
+whereis nginx
+```
+
+7.进入sbin目录，可以看到有一个可执行文件nginx，直接**./nginx**执行就OK了。
+
+```
+./nginx
+```
+
+9.查看是否启动成功
+
+```java
+ps -ef | grep nginx
+```
+
+10. 在网页上查看。默认端口为 80。会出现以下内容，则启动成功。
+
+```text
+Welcome to nginx!
+If you see this page, the nginx web server is successfully installed and working. Further configuration is required.
+
+For online documentation and support please refer to nginx.org.
+Commercial support is available at nginx.com.
+
+Thank you for using nginx.
+```
+
+> 更新配置的话，./nginx -s reload 
 
 
 

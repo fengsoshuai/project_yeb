@@ -1,6 +1,9 @@
 server:
   # 端口
-  port: 80
+  port: 8083
+  servlet:
+    context-path: /yeb
+
 
 spring:
   # 数据源配置
@@ -64,7 +67,7 @@ spring:
 # mybatis-plus配置
 mybatis-plus:
   # 配置Mapper映射文件
-  mapper-locations: classpath:/mapper/*Mapper.xml
+  mapper-locations: classpath:org/feng/server/mapper/xml/*Mapper.xml
   # 配置Mybatis数据返回类型别名
   type-aliases-package: org.feng.server.entity
   configuration:

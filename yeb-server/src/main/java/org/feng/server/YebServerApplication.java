@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerA
 
 /**
  * 启动类
- *
+ *  java -jar project.jar --spring.config.location=/usr/src/application.yml
  * @author Fengjs
  */
 @SpringBootApplication

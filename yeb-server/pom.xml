@@ -112,4 +112,46 @@
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.3.7.RELEASE</version>
+                <configuration>
+                    <mainClass>org.feng.server.YebServerApplication</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+
+    <!-- 如果不添加此节点mybatis的mapper.xml文件都会被漏掉 -->
+    <resources>
+        <resource>
+            <directory>src/main/java</directory>
+            <includes>
+                <include>**/*.properties</include>
+                <include>**/*.xml</include>
+            </includes>
+            <filtering>false</filtering>
+        </resource>
+        <resource>
+            <directory>src/main/resources</directory>
+            <includes>
+                <include>**/*.properties</include>
+                <include>**/*.xml</include>
+                <include>**/*.yml</include>
+                <include>**/*.html</include>
+                <include>**/*.js</include>
+                <include>**/*.css</include>
+                <include>**/*.map</include>
+                <include>**/*.jpg</include>
+                <include>**/*.png</include>
+                <include>**/*.CAB</include>
+                <include>**/*.ico</include>
+            </includes>
+            <filtering>false</filtering>
+        </resource>
+    </resources>
+    </build>
 </project>

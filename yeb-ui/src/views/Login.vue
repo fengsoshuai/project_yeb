@@ -28,7 +28,7 @@ export default {
   name: "Login",
   data() {
     return {
-      captchaUrl: '/captcha?time=' + new Date() ,
+      captchaUrl: 'http://gnefjs.com/yeb/captcha?time=' + new Date() ,
       loginForm : {
         username : 'admin',
         password : '123456',
@@ -75,7 +75,7 @@ export default {
       })
     },
     updateCaptchaUrl(){
-      this.captchaUrl = '/captcha?time=' + new Date()
+      this.captchaUrl = 'http://gnefjs.com/yeb/captcha?time=' + new Date()
     }
   }
 }
