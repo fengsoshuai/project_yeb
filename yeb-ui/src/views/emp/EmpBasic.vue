@@ -702,7 +702,7 @@ export default {
     exportEmp(){
       let ids = ''
       this.selectedEmp.forEach(emp => ids += 'ids=' + emp.id + '&')
-      this.downLoadRequest('/employee/basic/export?' + ids)
+      this.downLoadRequest('/yeb/employee/basic/export?' + ids)
     },
     beforeUpload(){
       this.importDisabled = true
